@@ -1,0 +1,212 @@
+<app-ejecucion-programa-carga-tabs />
+
+<div class="grid mb-2">
+  <div class="col-12">
+    <div class="card card--operation">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 lg:col-2 md:col-3 sm:col-6 field--operation">
+          <label for="D_NOMBRE_CIA_ABREV">Sociedad</label>
+          <input
+            pInputText
+            [(ngModel)]="results.parametro.D_NOMBRE_CIA_ABREV"
+            id="D_NOMBRE_CIA_ABREV"
+            disabled
+          />
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 field--operation">
+          <label for="C_GRP_ALM">Centro</label>
+          <p-inputGroup>
+            <input
+              pInputText
+              [(ngModel)]="results.parametro.C_GRP_ALM"
+              style="width: 50%"
+              id="C_GRP_ALM"
+              disabled
+            />
+            <input
+              pInputText
+              [(ngModel)]="results.parametro.D_GRP_ALM"
+              style="width: 50%"
+              id="D_GRP_ALM"
+              disabled
+            />
+          </p-inputGroup>
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 sm:col-6 field--operation">
+          <label for="N_PROG_DESP">Programa</label>
+          <input
+            id="N_PROG_DESP"
+            pInputText
+            [FillWithCero]="10"
+            [(ngModel)]="results.parametro.N_PROG_DESP"
+          />
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 sm:col-6 field--operation">
+          <label for="F_CARGA">Fecha</label>
+          <p-calendar
+            id="F_CARGA"
+            [(ngModel)]="date"
+            [showIcon]="true"
+            inputId="icon"
+            dateFormat="dd/mm/yy"
+            [baseZIndex]="10000"
+            [yearNavigator]="true"
+            [monthNavigator]="true"
+            yearRange="2000:2050"
+            [iconDisplay]="'input'"
+            [showOnFocus]="false"
+          >
+          </p-calendar>
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 field--operation">
+          <label for="N_SECUEN_PROG_MDW">Aut. Carga</label>
+          <input
+            id="N_SECUEN_PROG_MDW"
+            pInputText
+            [FillWithCero]="10"
+            [(ngModel)]="results.parametro.N_SECUEN_PROG_MDW"
+          />
+        </div>
+        <div class="field col-12 md:col-7 field--operation">
+          <label for="C_EDO_PROG_MDW">Edo Autorización</label>
+          <p-inputGroup>
+            <input
+              id="C_EDO_PROG_MDW"
+              style="width: 10%"
+              pInputText
+              [FillWithCero]="2"
+              [(ngModel)]="results.parametro.C_EDO_PROG_MDW"
+            />
+            <input
+              [(ngModel)]="results.parametro.D_EDO_PROG"
+              [disabled]="true"
+              style="width: 70%"
+              pInputText
+            />
+            <button
+              pButton
+              pRipple
+              style="width: auto"
+              pTooltip="Mostrar ayuda"
+              tooltipPosition="top"
+              label="..."
+              (click)="displayChange(true)"
+            ></button>
+          </p-inputGroup>
+        </div>
+        <div class="field field--operation flex-align-end">
+          <button
+            style="width: auto"
+            pButton
+            pRipple
+            label="Consultar"
+            (click)="consult()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-basic-table
+  [autoLayout]="true"
+  [loading]="loading"
+  [resizable]="true"
+  [cols]="cols"
+  [rows]="rows"
+  [selected]="selected"
+  [pag]="results.parametro.PAG"
+  [paginator]="false"
+  (selectedEvent)="selectedRow($event)"
+>
+  <button pButton class="mr-2" label="Detalle" (click)="detail()"></button>
+  <button
+    pButton
+    class="mr-2"
+    [disabled]="nextPageFlag()"
+    (click)="nextPage()"
+    label="Siguiente"
+  ></button>
+</app-basic-table>
+
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <button
+      pButton
+      class="mr-2"
+      label="Reordenar"
+      [disabled]="rearrangeFLag()"
+      (click)="rearrange()"
+    ></button>
+    <button
+      pButton
+      class="mr-2"
+      label="Dev. Frente"
+      [disabled]="devFrenteFlag()"
+      (click)="devFrent()"
+    ></button>
+    <button
+      pButton
+      class="mr-2"
+      label="Confirmación"
+      (click)="confirmDialog()"
+      [disabled]="devFrenteFlag()"
+    ></button>
+    <button
+      pButton
+      class="mr-2"
+      label="Cancelar"
+      (click)="cancelDialog()"
+      [disabled]="rearrangeFLag()"
+    ></button>
+    <!-- <button pButton type="button" label="Alta" (click)="register()"></button> -->
+    <button
+      pButton
+      class="mr-2"
+      label="Cancelar"
+      (click)="cancelDialog()"
+      [disabled]="rearrangeFLag()"
+    ></button>
+  </div>
+  <div class="p-toolbar-group-end">
+    <button
+      pButton
+      class="mr-2"
+      label="Desp Cent Ext"
+      (click)="externalCenterOffice()"
+    ></button>
+    <button
+      pButton
+      class="mr-2"
+      label="ReImp. Autoriz."
+      (click)="reprint()"
+      [disabled]="reprintFlag()"
+    ></button>
+    <button
+      pButton
+      class="mr-2"
+      label="Seguimiento"
+      (click)="tracking()"
+      [disabled]="!selected"
+    ></button>
+  </div>
+</p-toolbar>
+
+<app-transaction-info
+  [W_PROG]="results.parametro.W_PROG"
+  [W_COMANDO]="results.parametro.PAR_COMANDO"
+  [W_IDEN]="results.parametro.PAR_IDEN"
+  [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
+  [W_MENSA]="results.parametro.W_MENSA"
+></app-transaction-info>
+
+<app-edo-programa
+  (displayEvent)="displayChange($event)"
+  (selectEvent)="selectedHelp($event)"
+  [displayHelp]="displayHelp"
+></app-edo-programa>
+
+<app-confirm-dialog (acceptEvent)="confirmDialogAccept($event)">
+</app-confirm-dialog>
+
+<app-toast></app-toast>

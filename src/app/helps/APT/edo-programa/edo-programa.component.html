@@ -1,0 +1,47 @@
+<app-ayuda
+  [helpTitle]="'Estados de Programa'"
+  [displayHelp]="displayHelp"
+  [cols]="cols"
+  [rows]="rows"
+  [selected]="selected"
+  [pag]="results.parametro.PAG"
+  [loading]="loading"
+  [W_PROG]="results.parametro.W_PROG"
+  [nextFlag]="true"
+  [previousFlag]="true"
+  [W_C_MENSA]="results.parametro.W_C_MENSA"
+  [params]="results.parametro"
+  (displayEvent)="close()"
+  (selectEvent)="select($event)"
+  (previousPageEvent)="previousPage()"
+  (nextPageEvent)="nextPage()"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+>
+  <div class="grid mb-2" inputs>
+    <div class="col-fixed" style="width: 180px">
+      <label FOR="D_EDO_PROG">Desc. Abrev. Edo. Prog.</label>
+      <input
+        id="D_EDO_PROG"
+        [(ngModel)]="results.parametro.D_EDO_PROG"
+        type="text"
+        pInputText
+      />
+    </div>
+    <div class="col flex-align-end">
+      <button
+        style="width: auto"
+        pButton
+        pRipple
+        label="Consultar"
+        (click)="consult()"
+      ></button>
+    </div>
+  </div>
+  <app-transaction-info
+    [W_PROG]="results.parametro.W_PROG"
+    [W_COMANDO]="results.parametro.PAR_COMANDO"
+    [W_IDEN]="results.parametro.PAR_IDEN"
+    [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
+    [W_MENSA]="results.parametro.W_MENSA"
+  ></app-transaction-info>
+</app-ayuda>

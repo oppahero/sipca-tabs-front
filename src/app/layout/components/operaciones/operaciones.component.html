@@ -1,0 +1,12 @@
+<section class="submenu-sections" style="border-bottom: 5px solid #efefef;">
+  <div class="operation-title">Operaciones</div>
+  <!-- [style]="{ 'max-height': '250px', overflow: 'auto' }" -->
+  <p-panelMenu
+    [model]="items"
+    [multiple]="false"
+    (click)="activeMenu($event)"
+  ></p-panelMenu>
+</section>
+<section class="submenu-sections">
+  <div class="operation-title">Operaciones Favoritas</div>
+</section>

@@ -1,0 +1,66 @@
+<app-dialog
+  [header]="helpTitle"
+  [displayHelp]="displayHelp"
+  [draggable]="true"
+  [maximizable]="true"
+  [modal]="true"
+  [resizable]="true"
+  [closable]="false"
+  [height]="'600px'"
+>
+  <ng-content select="[inputs]" header></ng-content>
+
+  <div body>
+    <app-basic-table
+      [autoLayout]="true"
+      [loading]="loading"
+      [resizable]="true"
+      [cols]="cols"
+      [rows]="rows"
+      [selected]="selected"
+      [pag]="pag"
+      [paginator]="paginator"
+      [num]="num"
+      [excel]="excel"
+      (selectedEvent)="selectedRow($event)"
+      [filters]="filters"
+    >
+      <ng-content select="[table-buttons]"></ng-content>
+
+      <button
+        *ngIf="previousFlag"
+        pButton
+        type="button"
+        label="Anterior"
+        style="margin-right: 10px"
+        [disabled]="previousPageFlag()"
+        (click)="previousPage()"
+      ></button>
+      <button
+        *ngIf="nextFlag"
+        pButton
+        type="button"
+        label="Siguiente"
+        [disabled]="nextPageFlag()"
+        (click)="nextPage()"
+      ></button>
+    </app-basic-table>
+
+    <ng-content></ng-content>
+  </div>
+
+  <div>
+    <p-button
+      *ngIf="acceptFlag"
+      (click)="select()"
+      label="Aceptar"
+      styleClass="p-button-text"
+      [disabled]="!selected"
+    ></p-button>
+    <p-button
+      (click)="close()"
+      label="Volver"
+      styleClass="p-button-text"
+    ></p-button>
+  </div>
+</app-dialog>

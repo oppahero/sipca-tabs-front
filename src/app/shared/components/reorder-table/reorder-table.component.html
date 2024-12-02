@@ -1,0 +1,135 @@
+<p-table
+  selectionMode="multiple"
+  [(selection)]="selected"
+  styleClass="mt-5"
+  [dataKey]="key"
+  [autoLayout]="autoLayout"
+  [loading]="loading"
+  [columns]="cols"
+  [value]="rows_"
+  [resizableColumns]="resizable"
+  columnResizeMode="expand"
+  styleClass="p-datatable-sm p-datatable-gridlines"
+  (onRowSelect)="select()"
+  (onRowUnselect)="select()"
+  [paginator]="paginator"
+  [rows]="num"
+  #dt
+  [(first)]="first"
+  [reorderableColumns]="reorder"
+  [scrollable]="scrollable"
+  [scrollHeight]="scrollHeight"
+>
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <div>
+        <h6 class="p-m-0">
+          <strong>{{ title }}</strong>
+        </h6>
+      </div>
+      <div>
+        <button
+          *ngIf="excel"
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          (click)="exportExcel()"
+          class="p-button-success p-ml-auto"
+          pTooltip="Exportar excel"
+          tooltipPosition="right"
+          tooltipZIndex="90000"
+        ></button>
+        <button
+          *ngIf="filters"
+          pButton
+          style="margin-left: 15px"
+          icon="pi pi-filter"
+          pTooltip="Filtros"
+          tooltipPosition="right"
+          (click)="filtersChange()"
+          class="p-ml-auto"
+          (click)="dt.clear()"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem"></th>
+      <th
+        *ngFor="let col of columns"
+        pResizableColumn
+        [pSortableColumn]="col.field"
+        [ngStyle]="{ width: col.width }"
+        class="text-center"
+      >
+        {{ col.header }}
+      </th>
+    </tr>
+    <tr *ngIf="filter">
+      <th *ngFor="let col of columns">
+        <!-- (input)="dt.filter($event.target.value, col.field, 'startsWith')" -->
+        <input
+          pInputText
+          type="text"
+          placeholder="Buscar por {{ col.header }}"
+          class="p-column-filter"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-rowIndex="rowIndex"
+    let-columns="columns"
+    let-index="rowIndex"
+  >
+    <tr
+      [pSelectableRow]="rowData"
+      [pSelectableRowIndex]="rowIndex"
+      [pReorderableRow]="index"
+    >
+      <td>
+        <span class="pi pi-bars" pReorderableRowHandle></span>
+      </td>
+      <td *ngFor="let col of columns" class="text-center">
+        {{ rowData[col.field] }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="28" style="text-align: left">
+        No se han encontrado registros.
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div>
+      <div class="p-d-flex p-jc-between">
+        <div>
+          <label htmlFor="PAG" [hidden]="!pag" style="padding-right: 10px"
+            >Página:</label
+          >
+          <input
+            [hidden]="!pag"
+            readonly
+            [(ngModel)]="pag"
+            type="text"
+            style="width: 30%"
+            class="inputStyle number"
+            pInputText
+            id="PAG"
+          />
+        </div>
+        <div>
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-table>

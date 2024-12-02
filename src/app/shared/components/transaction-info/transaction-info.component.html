@@ -1,0 +1,57 @@
+<div
+  class="text-sm transaction-container"
+  style="font-size: 13px"
+  *ngIf="W_PROG"
+  (click)="display(true)"
+>
+  Transacción {{ W_PROG }}
+  <i
+    class="pi pi-circle-on"
+    style="font-size: 0.9em"
+    [ngStyle]="{ color: getColor() }"
+  ></i>
+
+  <!-- {{ W_MENSA }} -->
+</div>
+
+<app-dialog
+  [header]="'Información'"
+  [displayHelp]="displayHelp"
+  [draggable]="false"
+  [maximizable]="false"
+  [modal]="true"
+  [resizable]="false"
+  [closable]="false"
+  [breakpoints]="{ '1199px': '40vw', '750px': '50vw' , '575px': '90vw' }"
+>
+  <div body>
+    <div class="p-fluid p-formgrid grid">
+      <div class="field col-12 md:col-4">
+        <label htmlFor="transaccion">Transacción</label>
+        <input pInputText id="transaccion" disabled [(ngModel)]="W_PROG" />
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlFor="comando">Comando</label>
+        <input pInputText id="comando" disabled [(ngModel)]="W_COMANDO" />
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlFor="usuario">Usuario</label>
+        <input pInputText id="usuario" disabled [(ngModel)]="W_IDEN" />
+      </div>
+      <div class="field col-12 md:col-12">
+        <label htmlFor="mensaje">Mensaje</label>
+        <p-inputGroup>
+          <input pInputText style="width: 20%" disabled [(ngModel)]="W_IDEN" />
+          <input pInputText style="width: 70%" disabled [(ngModel)]="W_MENSA" />
+        </p-inputGroup>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p-button
+      (click)="display(false)"
+      label="Cerrar"
+      styleClass="p-button-text"
+    ></p-button>
+  </div>
+</app-dialog>

@@ -1,0 +1,80 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card card--operation">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 lg:col-2 md:col-3 field--operation">
+          <label for="D_NOMBRE_CIA_ABREV">Sociedad</label>
+          <input
+            pInputText
+            id="D_NOMBRE_CIA_ABREV"
+            type="text"
+            [(ngModel)]="results.parametro.D_NOMBRE_CIA_ABREV"
+            disabled
+          />
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 field--operation">
+          <label for="C_GRP_ALM">Centro</label>
+          <p-inputGroup>
+            <input
+              pInputText
+              style="width: 50%"
+              [(ngModel)]="results.parametro.C_GRP_ALM"
+              disabled
+              id="C_GRP_ALM"
+            />
+            <input
+              pInputText
+              style="width: 50%"
+              [(ngModel)]="results.parametro.D_GRP_ALM"
+              disabled
+            />
+          </p-inputGroup>
+        </div>
+        <div class="field col-12 lg:col-2 md:col-3 field--operation">
+          <label for="N_SECUEN_PROG_MDW">Aut. Carga</label>
+          <input
+            id="N_SECUEN_PROG_MDW"
+            pInputText
+            [(ngModel)]="results.parametro.N_SECUEN_PROG_MDW"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-basic-table
+  [autoLayout]="true"
+  [loading]="loading"
+  [resizable]="true"
+  [cols]="cols"
+  [rows]="rows"
+  [title]="title"
+  [paginator]="false"
+  [pag]="results.parametro.PAG"
+>
+  <button
+    pButton
+    class="mr-2"
+    label="Siguiente"
+    [disabled]="nextPageFlag()"
+    (click)=" this.get()"
+  ></button>
+</app-basic-table>
+
+<p-toolbar>
+  <div class="p-toolbar-group-end">
+    <button pButton class="mr-2" label="Volver" (click)="back()"></button>
+  </div>
+</p-toolbar>
+
+<app-transaction-info
+  [W_PROG]="results.parametro.W_PROG"
+  [W_COMANDO]="results.parametro.PAR_COMANDO"
+  [W_IDEN]="results.parametro.PAR_IDEN"
+  [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
+  [W_MENSA]="results.parametro.W_MENSA"
+></app-transaction-info>
+
+<app-toast></app-toast>

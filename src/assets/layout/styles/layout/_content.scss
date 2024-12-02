@@ -1,0 +1,25 @@
+.layout-main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    padding: 7rem 2rem 2rem 4rem;
+    transition: margin-left $transitionDuration;
+
+
+    // !AÑADIDO
+    // min-height: 100vh; // antes era 100vh    
+    // position: relative;
+    padding-top: 0;
+}
+
+.layout-main {
+    flex: 1 1 auto;
+
+   // !AÑADIDO
+    margin-top: 6rem; //para estar a la misma altura del sidebar
+    height: 50vh;
+    overflow:scroll;
+    // margin-right: 210px; con submenu  220px
+    margin-right: 240px;
+}
