@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
-import { MDWResponse } from '@core/models'
-import { Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConsLiberacionColadaPlanosService {
+export class AutFormacionColadasPlanosService {
   private _url: string
-
   params: any
   colada: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'cons-liberacion-coladas-planos'
+    this._url = environment.apiUrl + 'autFormacionColadasPlanos'
   }
 
-  getAll(data: MDWResponse): Observable<MDWResponse> {
-    return this._http.post<MDWResponse>(this._url, data)
+  getAll(data: any) {
+    return this._http.post<any>(this._url, data)
   }
 
   /** GETS Y SETS */

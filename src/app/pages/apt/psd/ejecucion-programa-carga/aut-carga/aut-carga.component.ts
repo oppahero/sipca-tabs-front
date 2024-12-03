@@ -7,7 +7,6 @@ import { Column, MDWResponse, User } from '@core/models'
 import { DatePipe } from '@angular/common'
 import {
   AutCargaLargosService,
-  EjeProgramaCargaService,
   AutCargaLargosCanService,
   AutCargaLargosConfirService,
 } from '@core/services/apt'
@@ -55,7 +54,6 @@ export class AutCargaComponent implements OnInit {
     private _datePipe: DatePipe,
     private _util: GlobalService,
     private _authService: AuthService,
-    private _tab: EjeProgramaCargaService,
     private _activatedRoute: ActivatedRoute,
     private _autCargaService: AutCargaLargosService,
     private _autCargaCanService: AutCargaLargosCanService,
@@ -66,10 +64,7 @@ export class AutCargaComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.tab.activeAutCarga()
     this.user = this._authService.user()
-    // this.date = this.autCargaService.getDate()
-    // this.results.parametro = this.autCargaService.getParams()
     this.setCols()
     this.consult()
   }

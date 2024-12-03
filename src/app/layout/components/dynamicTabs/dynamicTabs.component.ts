@@ -1,8 +1,6 @@
 import { Component, OnDestroy, Type } from '@angular/core'
-import { AutCargaDetComponent } from '@pages/apt/psd/ejecucion-programa-carga/aut-carga-det/aut-carga-det.component'
 import { OpenInTabService } from '../../service/open-in-tab.service'
 import { Subscription } from 'rxjs'
-import { AutCargaComponent } from '@pages/apt/psd/ejecucion-programa-carga/aut-carga/aut-carga.component'
 import { TabSelected } from '@core/models/tab-selected.interface'
 
 interface History {
@@ -29,14 +27,10 @@ interface Tab {
 export class DynamicTabsComponent implements OnDestroy {
   tabsSuscription: Subscription
   tabs: Tab[] = []
+  activeIndex: number | undefined = 0
 
-  private componentMap: { [key: string]: Type<any> } = {
-    AutCargaComponent,
-    AutCargaDetComponent,
-  }
-
-  constructor(private dynamicTabs: OpenInTabService) {
-    this.tabsSuscription = this.dynamicTabs.tab.subscribe(
+  constructor(private _dynamicTabs: OpenInTabService) {
+    this.tabsSuscription = this._dynamicTabs.tab.subscribe(
       (selectedData: TabSelected) => {
         if (!selectedData) return
         const { componentName, componentMap } = selectedData
@@ -70,6 +64,7 @@ export class DynamicTabsComponent implements OnDestroy {
       newTab.history = [{ component: newTab.component, componentName }]
 
       this.tabs.push(newTab)
+      this.activeIndex = this.tabs.length - 1
     }
   }
 

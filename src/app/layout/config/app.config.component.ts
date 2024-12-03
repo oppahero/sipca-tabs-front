@@ -3,8 +3,8 @@ import { LayoutService } from '../service/app.layout.service'
 import { MenuService } from '../components/appMenu/app.menu.service'
 
 @Component({
-    selector: 'app-config',
-    templateUrl: './app.config.component.html',
+  selector: 'app-config',
+  templateUrl: './app.config.component.html',
 })
 export class AppConfigComponent {
     @Input() minimal: boolean = false
@@ -17,90 +17,90 @@ export class AppConfigComponent {
     ) {}
 
     get visible(): boolean {
-        return this.layoutService.state.configSidebarVisible
+      return this.layoutService.state.configSidebarVisible
     }
 
     set visible(_val: boolean) {
-        this.layoutService.state.configSidebarVisible = _val
+      this.layoutService.state.configSidebarVisible = _val
     }
 
     get scale(): number {
-        return this.layoutService.config().scale
+      return this.layoutService.config().scale
     }
 
     set scale(_val: number) {
-        this.layoutService.config.update((config) => ({
-            ...config,
-            scale: _val,
-        }))
+      this.layoutService.config.update((config) => ({
+        ...config,
+        scale: _val,
+      }))
     }
 
     get menuMode(): string {
-        return this.layoutService.config().menuMode
+      return this.layoutService.config().menuMode
     }
 
     set menuMode(_val: string) {
-        this.layoutService.config.update((config) => ({
-            ...config,
-            menuMode: _val,
-        }))
+      this.layoutService.config.update((config) => ({
+        ...config,
+        menuMode: _val,
+      }))
     }
 
     get inputStyle(): string {
-        return this.layoutService.config().inputStyle
+      return this.layoutService.config().inputStyle
     }
 
     set inputStyle(_val: string) {
-        this.layoutService.config().inputStyle = _val
+      this.layoutService.config().inputStyle = _val
     }
 
     get ripple(): boolean {
-        return this.layoutService.config().ripple
+      return this.layoutService.config().ripple
     }
 
     set ripple(_val: boolean) {
-        this.layoutService.config.update((config) => ({
-            ...config,
-            ripple: _val,
-        }))
+      this.layoutService.config.update((config) => ({
+        ...config,
+        ripple: _val,
+      }))
     }
 
     set theme(val: string) {
-        this.layoutService.config.update((config) => ({
-            ...config,
-            theme: val,
-        }))
+      this.layoutService.config.update((config) => ({
+        ...config,
+        theme: val,
+      }))
     }
 
     get theme(): string {
-        return this.layoutService.config().theme
+      return this.layoutService.config().theme
     }
 
     set colorScheme(val: string) {
-        this.layoutService.config.update((config) => ({
-            ...config,
-            colorScheme: val,
-        }))
+      this.layoutService.config.update((config) => ({
+        ...config,
+        colorScheme: val,
+      }))
     }
 
     get colorScheme(): string {
-        return this.layoutService.config().colorScheme
+      return this.layoutService.config().colorScheme
     }
 
     onConfigButtonClick() {
-        this.layoutService.showConfigSidebar()
+      this.layoutService.showConfigSidebar()
     }
 
     changeTheme(theme: string, colorScheme: string) {
-        this.theme = theme
-        this.colorScheme = colorScheme
+      this.theme = theme
+      this.colorScheme = colorScheme
     }
 
     decrementScale() {
-        this.scale--
+      this.scale--
     }
 
     incrementScale() {
-        this.scale++
+      this.scale++
     }
 }

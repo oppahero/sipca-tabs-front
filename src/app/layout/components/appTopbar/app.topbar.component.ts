@@ -19,10 +19,10 @@ export class AppTopBarComponent {
   @ViewChild('topbarmenu') menu!: ElementRef
 
   constructor(
-    public layoutService: LayoutService,
     public util: GlobalService,
-    private authService: AuthService
+    public layoutService: LayoutService,
+    private _authService: AuthService,
   ) {
-    this.user =  this.authService.user()
+    this.user =  this._authService.user()
   }
 }

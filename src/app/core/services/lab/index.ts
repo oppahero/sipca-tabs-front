@@ -1,3 +1,5 @@
 export * from './autorizacion-asociacion-colada-OFA-planos.service'
 export * from './cons-liberacion-colada-planos.service'
 export * from './cons-liberacion-colada-planos-mtto.service'
+export * from './autorizacion-formacion-coladas-planos.service'
+export * from './evaluacion-coladas-planos.service'

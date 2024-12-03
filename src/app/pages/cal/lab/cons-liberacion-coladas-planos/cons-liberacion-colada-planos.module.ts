@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 
 import { SharedModule } from '../../../../shared/shared.module'
 import { HelpsAptModule } from '../../../../helps/APT/helps-apt.module'
-import { ConsultaLiberacionColadaPlanosRouting } from './cons-liberacion-colada-planos-routing.module'
 
 import { ConsultaLiberacionColadaPlanosComponent } from './cons-liberacion-colada-planos.component'
 
@@ -12,11 +11,13 @@ import { ConsultaLiberacionColadaPlanosComponent } from './cons-liberacion-colad
 
   imports: [
     CommonModule,
-    ConsultaLiberacionColadaPlanosRouting,
     SharedModule,
     HelpsAptModule,
     // HelpsLabModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [
+    ConsultaLiberacionColadaPlanosComponent,
+  ]
 })
 export class ConsultaLiberacionColadaPlanosModule {}

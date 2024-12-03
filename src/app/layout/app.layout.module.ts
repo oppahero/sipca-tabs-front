@@ -17,7 +17,6 @@ import { AppTopBarComponent } from './components/appTopbar/app.topbar.component'
 import { AppSidebarComponent } from './components/appSidebar/app.sidebar.component'
 import { AppConfigModule } from './config/config.module'
 import { AppLayoutComponent } from './app.layout.component'
-import { OperacionesComponent } from './components/operaciones/operaciones.component'
 import { PanelMenuModule } from 'primeng/panelmenu'
 import { AvatarModule } from 'primeng/avatar'
 import { AccordionModule } from 'primeng/accordion'
@@ -25,6 +24,10 @@ import { ButtonModule } from 'primeng/button'
 import { EjecProgCargaLargosModule } from '@pages/apt/psd/ejecucion-programa-carga/ejecucion-programa-carga.module'
 import { DynamicTabsComponent } from './components/dynamicTabs/dynamicTabs.component'
 import { OpenInTabService } from './service/open-in-tab.service'
+import { OperationsComponent } from './components/operations/operations.component'
+import { ConsultaLiberacionColadaPlanosModule } from '@pages/cal/lab/cons-liberacion-coladas-planos/cons-liberacion-colada-planos.module'
+import { AutorizacionAsocColadaOfaPlanosModule } from '@pages/cal/lab/autorizacion-asoc-colada-ofa-planos/autorizacion-asoc-colada-ofa-planos.module'
+
 @NgModule({
   declarations: [
     AppMenuitemComponent,
@@ -33,7 +36,7 @@ import { OpenInTabService } from './service/open-in-tab.service'
     AppMenuComponent,
     AppSidebarComponent,
     AppLayoutComponent,
-    OperacionesComponent,
+    OperationsComponent,
     DynamicTabsComponent
   ],
   imports: [
@@ -55,7 +58,9 @@ import { OpenInTabService } from './service/open-in-tab.service'
     // !AÑADIDO
     AccordionModule,
     ButtonModule,
-    EjecProgCargaLargosModule
+    EjecProgCargaLargosModule,
+    ConsultaLiberacionColadaPlanosModule,
+    AutorizacionAsocColadaOfaPlanosModule
   ],
   exports: [AppLayoutComponent],
   providers: [OpenInTabService]

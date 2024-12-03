@@ -11,8 +11,8 @@ import { MDWResponse } from '@core/models'
 })
 export class AutCargaLargosService {
   private _url: string
-  private _params: any
-  private _date: any
+  params: any
+  date: any
 
   constructor(private _http: HttpClient, private _util: GlobalService) {
     this._url = environment.apiUrl + 'ejec-prog-cargas-largos'
@@ -37,22 +37,22 @@ export class AutCargaLargosService {
   /** GETS Y SETS */
 
   getParams(): any {
-    return this._params ?? {}
+    return this.params ?? {}
   }
 
   setParams(params: any) {
-    this._params = params
+    this.params = params
   }
 
   getDate(): any {
-    return this._date ? this._date : null
+    return this.date ? this.date : null
   }
 
   setDate(item: any) {
-    this._date = item
+    this.date = item
   }
 
   setAut(aut) {
-    this._params.N_SECUEN_PROG_MDW = aut
+    this.params.N_SECUEN_PROG_MDW = aut
   }
 }

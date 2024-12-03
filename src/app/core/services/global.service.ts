@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import * as moment from 'moment'
-import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -60,17 +59,9 @@ export class GlobalService {
     WA: 'WA',
   }
 
-  private _message = new BehaviorSubject<any>([])
-
-  public customMessage = this._message.asObservable()
-
   constructor(private _datePipe: DatePipe) {
     this.urlAssets = 'assets/dist/img/user.png'
     this.urlPhoto = 'http://sirappnp/FOTCONT/'
-  }
-
-  public newMessage(item: any): void {
-    this._message.next(item)
   }
 
   validate(param: any): any {

@@ -5,11 +5,11 @@ import { BehaviorSubject } from 'rxjs'
 @Injectable()
 export class OpenInTabService {
 
-  private message = new BehaviorSubject<TabSelected>(null)
+  private _message = new BehaviorSubject<TabSelected>(null)
 
-  public tab = this.message.asObservable()
+  tab = this._message.asObservable()
 
-  public newTab(item: TabSelected): void {
-    this.message.next(item)
+  newTab(item: TabSelected): void {
+    this._message.next(item)
   }
 }

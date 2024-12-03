@@ -6,6 +6,9 @@ import { OpenInTabService } from '../../service/open-in-tab.service'
 import { User } from '@core/models'
 import { AuthService, GlobalService } from '@core/services'
 import { ejecProgCargaMap } from '@pages/apt/psd/ejecucion-programa-carga/component-map'
+import { OperationsService } from '../../service/operations.service'
+import { consLibColadasPlnMap } from '@pages/cal/lab/cons-liberacion-coladas-planos/component-map'
+import { autAsocColadaOfaPlnMap } from '@pages/cal/lab/autorizacion-asoc-colada-ofa-planos/component-map'
 
 @Component({
   selector: 'app-menu',
@@ -20,9 +23,10 @@ export class AppMenuComponent implements OnInit {
 
   constructor(
     public util: GlobalService,
-    private _dynamicTab: OpenInTabService,
+    private _authService: AuthService,
     public layoutService: LayoutService,
-    private _authService: AuthService
+    public operationsService: OperationsService,
+    private _dynamicTab: OpenInTabService,
   ) {}
 
   ngOnInit() {
@@ -41,12 +45,7 @@ export class AppMenuComponent implements OnInit {
             items: [
               {
                 label: 'Prog. y Seg. de Despacho',
-                // icon: 'pi pi-fw pi-sign-in',
-                // routerLink: ['apt/psd'],
-                // routerLinkActiveOptions: '{ exact: false }',
-                command: () => {
-                  this.PSD()
-                },
+                command: () => this.PSD(),
               },
               {
                 label: 'Ingresos al Almacén',
@@ -59,6 +58,19 @@ export class AppMenuComponent implements OnInit {
               },
             ],
           },
+          {
+            label: 'Calidad',
+            icon: 'pi pi-fw pi-user',
+            items: [
+              {
+                label: 'Laboratorio',
+                command: () => this.LAB(),
+              },
+              {
+                label: 'Ingeniería',
+              },
+            ],
+          },
         ],
       },
     ]
@@ -66,7 +78,7 @@ export class AppMenuComponent implements OnInit {
 
   init() {
     this.items = []
-    this.util.newMessage({
+    this.operationsService.add({
       items: this.items,
     })
   }
@@ -78,15 +90,12 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: 'Marcas de Transporte',
-            // routerLink: 'apt/psd/marcas-trspt',
           },
           {
             label: 'Registro de Transportistas',
-            // routerLink: 'apt/psd/reg-trp',
           },
           {
             label: 'Tolerancia de Báscula',
-            // routerLink: 'apt/psd/tole-bascu',
           },
         ],
       },
@@ -95,7 +104,6 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: 'Ejecución de Programa de Carga Largos',
-            // routerLink: 'apt/psd/prog-carga-largo',
             component: 'EjecucionProgramaCargaComponent',
             command: () => {
               this._dynamicTab.newTab({
@@ -112,15 +120,12 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: 'Consulta de Orden de Entrega',
-            // routerLink: 'apt/psd/orden-entrega',
           },
           {
             label: 'Consulta de Orden de Entrega Programada - Largos',
-            // routerLink: 'apt/psd/orden-entrega-programada-largos',
           },
           {
             label: 'Consulta de Orden Entrega Programada - Planos',
-            // routerLink: 'apt/psd/orden-entrega-programada-planos',
           },
         ],
       },
@@ -129,19 +134,15 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: 'Carga / Descarga en Frente',
-            // routerLink: 'apt/psd/carga-descarga-fte',
           },
           {
             label: 'Carga / Descarga en Frente Planos',
-            // routerLink: 'apt/psd/cargaDescFtePlanos',
           },
           {
             label: 'Recepción de Material por Transf. Externa Marítima',
-            // routerLink: 'apt/psd/recepMaterialMaritimo',
           },
           {
             label: 'Recepción de Material por Transf. Externa Terrestre',
-            // routerLink: 'apt/psd/recepMaterialTerrestre',
           },
         ],
       },
@@ -150,45 +151,168 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: 'Ejecucion del Despacho Maritimo',
-            // routerLink: 'apt/psd/ejecucion-despacho-maritimo',
           },
           {
             label: 'Administración de Buques',
-            // routerLink: 'apt/psd/admin-buques',
           },
           {
             label: 'Administración de Embarques',
-            // routerLink: 'apt/psd/adminEmbarques',
           },
           {
             label: 'Administración de Eventos',
-            // routerLink: 'apt/psd/admin-evento',
           },
           {
             label: 'Administración de Subeventos',
-            // routerLink: 'apt/psd/admin-subevento',
           },
           {
             label: 'Registro de Eventos del Embarque',
-            // routerLink: 'apt/psd/reg-eventos-embarque',
           },
           {
             label: 'Administración de Mate`s Receipt',
-            // routerLink: 'apt/psd/adm-mates-receipt',
           },
           {
             label: 'Administración de Lista de Carga',
-            // routerLink: 'apt/psd/administracion-listas-carga',
           },
           {
             label: 'Consulta de Listas de Carga',
-            // routerLink: 'apt/psd/cons-listas-carga',
           },
         ],
       },
     ]
 
-    this.util.newMessage({
+    this.sendToOperationes()
+  }
+
+  LAB() {
+    this.items = [
+      {
+        label: 'Administración de Análisis Químico',
+        expanded: false,
+        items: [
+          {
+            label: 'Administración de Química de Colada',
+          },
+          {
+            label: 'Administración de Formación de Colada',
+          },
+          {
+            label: 'Liberación de Coladas',
+          },
+          {
+            label: 'Autorización de Asociación de Colada/Ofa',
+          },
+          {
+            label: 'Administración de Química de Comprobación',
+          },
+          {
+            label: 'Autorización o Rechazo de Formación de Coladas',
+          },
+          {
+            label: 'Consulta de Histórico de Movimientos de Coladas',
+          },
+          {
+            label: 'Histórico de Movimientos de Química de Comprobación',
+          },
+          {
+            label: 'Consulta de Coladas por Estado',
+          },
+          {
+            label: 'Administración de Química de Colada Planos',
+          },
+          {
+            label: 'Histórico de Movimientos de Química de Comprobación - Planos',
+          },
+          {
+            label: 'Administración de Química de Comprobación Planos',
+          },
+          {
+            label: 'Consulta de Histórico de Movimientos de Coladas Planos',
+          },
+          {
+            label: 'Consulta de Coladas por Estado Planos',
+          },
+          {
+            label: 'Administración de Formación de Colada Planos',
+          },
+          {
+            label: 'Liberación de Coladas Planos',
+            component: 'ConsultaLiberacionColadaPlanosComponent',
+            command: () => {
+              this._dynamicTab.newTab({
+                label: 'Liberación de Coladas Planos',
+                componentName: 'ConsultaLiberacionColadaPlanosComponent',
+                componentMap: consLibColadasPlnMap
+              })
+            },
+          },
+          {
+            label: 'Autorización de Asociación de Colada/Ofa Planos',
+            component: 'AutorizacionAsocColadaOfaPlanosComponent',
+            command: () => {
+              this._dynamicTab.newTab({
+                label: 'Autorización de Asociación de Colada/Ofa Planos',
+                componentName: 'AutorizacionAsocColadaOfaPlanosComponent',
+                componentMap: autAsocColadaOfaPlnMap
+              })
+            },
+          },
+          {
+            label: 'Autorización de Formación de Coladas Planos',
+          },
+          {
+            label: 'Evaluación de Química de Coladas Planos',
+          },
+        ],
+      },
+      {
+        label: 'Administración de Muestras',
+        expanded: false,
+        items: [
+          {
+            label: 'Recepción o Rechazo de Muestras',
+          },
+          {
+            label: 'Creación de Muestras por Excepción - Largos',
+          },
+          {
+            label: 'Consulta de Muestras por Colada',
+          },
+          {
+            label: 'Consulta de Muestras por Ofa',
+          },
+          {
+            label: 'Consulta de Muestras por Ofa Colada',
+          },
+        ],
+      },
+      {
+        label: 'Administración de Ensayos',
+        expanded: false,
+        items: [
+          {
+            label: 'Consulta de Especificaciones por OFA',
+          },
+          {
+            label: 'Administración de Captura de Reensayos',
+          },
+          {
+            label: 'Consulta de Control de Liberación por Ensayos',
+          },
+          {
+            label: 'Copiado Manual Ensayo para OFA de la misma Colada',
+          },
+          {
+            label: 'Resultados de Ensayos por Muestras',
+          },
+        ],
+      },
+    ]
+
+    this.sendToOperationes()
+  }
+
+  sendToOperationes() {
+    this.operationsService.add({
       items: this.items,
     })
   }

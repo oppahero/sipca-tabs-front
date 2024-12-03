@@ -6,15 +6,15 @@ import { environment } from 'src/environments/environment'
   providedIn: 'root',
 })
 export class ConsLiberacionColadaPlanosMttoService {
-  private params: any
-  private url: string
+  private _url: string
+  params: any
 
-  constructor(private http: HttpClient) {
-    this.url = environment.apiUrl + 'liberacion-coladas-planos'
+  constructor(private _http: HttpClient) {
+    this._url = environment.apiUrl + 'liberacion-coladas-planos'
   }
 
   getAll(data: any) {
-    return this.http.post<any>(this.url, data)
+    return this._http.post<any>(this._url, data)
   }
 
   /** GETS Y SETS */

@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { MenuItem } from 'primeng/api'
-import { GlobalService, OperacionesService } from 'src/app/core/services'
+import { GlobalService } from 'src/app/core/services'
+import { OperationsService } from '../../service/operations.service'
 
 @Component({
-  selector: 'app-operaciones',
-  templateUrl: './operaciones.component.html',
+  selector: 'app-operations',
+  templateUrl: './operations.component.html',
   styles: `
     .operation-title{
       color: black;
@@ -14,16 +15,16 @@ import { GlobalService, OperacionesService } from 'src/app/core/services'
     }
   `,
 })
-export class OperacionesComponent implements OnInit, OnDestroy {
+export class OperationsComponent implements OnInit, OnDestroy {
   items!: MenuItem[]
 
   constructor(
-    private util: GlobalService,
-    private operation: OperacionesService
+    private _util: GlobalService,
+    private _operation: OperationsService
   ) {}
 
   ngOnInit(): void {
-    this.util.customMessage.subscribe((x) => {
+    this._operation.customMessage.subscribe((x) => {
       this.items = x.items
     })
   }
@@ -33,6 +34,6 @@ export class OperacionesComponent implements OnInit, OnDestroy {
   }
 
   activeMenu($event) {
-    this.operation.active($event.target.textContent)
+    // this._operation.active($event.target.textContent)
   }
 }

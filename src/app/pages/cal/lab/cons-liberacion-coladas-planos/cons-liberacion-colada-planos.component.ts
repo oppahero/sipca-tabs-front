@@ -1,21 +1,18 @@
-import { ToastComponent, ConfirmDialogComponent } from '@shared/components'
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { ConfirmDialogComponent } from '@shared/components'
 import { AuthService, GlobalService } from '@core/services'
-import { ActivatedRoute, Router } from '@angular/router'
-import { DatePipe } from '@angular/common'
+import { Column, MDWResponse, User } from '@core/models'
+import { Router } from '@angular/router'
 import {
   ConsLiberacionColadaPlanosService,
   ConsLiberacionColadaPlanosMttoService,
   AutorizacionAsociacionColadaOFAPlanosService,
 } from '@core/services/lab'
 
-import { Column, MDWResponse, User } from '@core/models'
-
 @Component({
   selector: 'app-cons-liberacion-colada-planos',
   templateUrl: './cons-liberacion-colada-planos.component.html',
-  styleUrls: ['./cons-liberacion-colada-planos.component.scss'],
-  providers: [DatePipe],
 })
 export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   user: User
@@ -27,7 +24,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   results: MDWResponse = { parametro: {}, tabla1: [], tabla2: [] }
   selected: any
   displayHelpColadasxEdo: boolean = false
-  selectedEC: any
+  selectedEC: any = {}
   estadoColadas: any = []
 
   tipoMensa: string
@@ -43,18 +40,27 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   PAG: any
   PAG_N: any = 0
 
-  @ViewChild(ToastComponent) toast: ToastComponent
   @ViewChild(ConfirmDialogComponent) confirm: ConfirmDialogComponent
+
+  @Input() hash: number
+
+  @Input() set data(value: any) {
+
+    if (value) {
+      console.log('Liberacion colada', value)
+      const { params } = value
+      this.results.parametro = params
+    }
+  }
 
   constructor(
     private _router: Router,
     private _util: GlobalService,
     private _authService: AuthService,
-    private _activatedRoute: ActivatedRoute,
+    private _dynamicTabs: DynamicTabsComponent,
     private _consLiberacionColadaPlanosService: ConsLiberacionColadaPlanosService,
     private _autorizacionAsociacionColadaOFAPlanosService: AutorizacionAsociacionColadaOFAPlanosService,
-    private _consLiberacionColadaPlanosMttoService: ConsLiberacionColadaPlanosMttoService,
-    private _datePipe: DatePipe
+    private _consLiberacionColadaPlanosMttoService: ConsLiberacionColadaPlanosMttoService
   ) {
     this.title = 'Detalle'
 
@@ -109,20 +115,6 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     return results['tabla1'].filter((x) => x.C_COLADA != '')
   }
 
-  notification(aux: string, mssg: string) {
-    switch (aux) {
-    case 'FE':
-      this.toast.showError(mssg)
-      break
-    case 'WA':
-      this.toast.showWarn(mssg)
-      break
-    default:
-      this.toast.showSuccess(mssg)
-      break
-    }
-  }
-
   formatCols(aux) {
     return aux.map((p) => {
       if (p.N_VERSIO_ACERO)
@@ -147,16 +139,10 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
       this.results.parametro.W_MENSA = this.mensa
       this.liberaFlag = false
     }
-
-    this.notification(
-      this.results.parametro.W_TIPO_MENSA,
-      this.results.parametro.W_MENSA
-    )
   }
 
   catchError(err) {
     console.log(err)
-    this.toast.showError('Ha ocurrido un error.')
   }
 
   getAll() {
@@ -180,7 +166,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     this._consLiberacionColadaPlanosMttoService
       .getAll(this.resultsLiberar)
       .subscribe({
-        next: (res) =>{
+        next: (res) => {
           this.loading = false
           this.liberaFlag = true
           this.tipoMensa = res.parametro.W_TIPO_MENSA
@@ -212,27 +198,18 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   }
 
   nextPageFlag(): boolean {
-    if (
+    return !(
       this.results.parametro.W_MENSA == '42 ** CONTINUA' ||
       this.results.parametro.W_MENSA == '504 ** COLADA LIBERADA **'
-    ) {
-      return false
-    } else {
-      return true
-    }
+    )
   }
 
   liberarFlag() {
-    if (this.selected) {
-      return false
-    } else {
-      return true
-    }
+    return !this.selected
   }
 
   nextPage() {
     const aux = { ...this.results.parametro }
-    this.results.parametro = {}
 
     this.results = {
       parametro: {
@@ -246,9 +223,28 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   }
 
   libercond() {
-    this.saveParams()
-    this._router.navigate(['/cal/lab/autorizacion-asoc-colada-ofa-planos'])
-    this._autorizacionAsociacionColadaOFAPlanosService.setBackFlag(true)
+    const aux = this.results.parametro.PAG - 1
+    const pag = this._util.formatNumberToString(aux.toString(), 3, 0)
+
+    const params = {
+      PAG: pag,
+      W_CLAVE_CDA: this._util.validate(this.results.parametro.W_INI_CONSU),
+    }
+
+    this._dynamicTabs.setDataOnComponentActive(this.hash, { params: params })
+
+    this._dynamicTabs.navigateTo(
+      this.hash,
+      'AutorizacionAsocColadaOfaPlanosComponent',
+      {
+        params: { C_COLADA: this.selected?.C_COLADA ?? '' },
+        back: true
+      }
+    )
+
+    // this.saveParams()
+    // this._router.navigate(['/cal/lab/autorizacion-asoc-colada-ofa-planos'])
+    // this._autorizacionAsociacionColadaOFAPlanosService.setBackFlag(true)
   }
 
   confirmDialog() {
@@ -260,13 +256,12 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     case 'liberar':
       this.liberar()
       break
-    default:
-      break
     }
   }
 
   liberar() {
     const aux = { ...this.results.parametro }
+
     this.resultsLiberar.parametro = {
       PAG: this._util.validate(aux.PAG),
       PAR_IDEN: this.user.username,
@@ -276,6 +271,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
       W_INI_CONSU: this._util.validate(aux.W_CLAVE_CDA),
       W_CLAVE_CDA: this._util.validate(aux.W_CLAVE_CDA),
     }
+
     this.libera()
     this.PAG_N = this.resultsLiberar.parametro.PAG - 1
     this.PAG = this._util.formatNumberToString(this.PAG_N.toString(), 3, 0)
@@ -295,6 +291,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   saveParams() {
     this.PAG_N = this.results.parametro.PAG - 1
     this.PAG = this._util.formatNumberToString(this.PAG_N.toString(), 3, 0)
+
     this._consLiberacionColadaPlanosService.setParams({
       PAG: this._util.validate(this.PAG),
       ACCION: '',
