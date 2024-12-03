@@ -51,14 +51,14 @@ export class BasicTableComponent {
     this.first = 0
   }
 
-  constructor(private excelService: ExcelService) {}
+  constructor(private _excelService: ExcelService) {}
 
   select() {
     this.selectedEvent.emit(this.selected)
   }
 
   exportExcel() {
-    this.excelService.exportAsExcelFile(this.rows_, 'DOCUMENT')
+    this._excelService.exportAsExcelFile(this.rows_, 'DOCUMENT')
   }
 
   filtersChange() {

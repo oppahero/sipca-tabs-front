@@ -17,13 +17,13 @@ const appRoutes: Routes = [
     path: '',
     component: AppLayoutComponent,
     canActivate: [authGuard],
-    children: [
-      {
-        path: 'apt',
-        loadChildren: () =>
-          import('./pages/apt/apt.module').then((m) => m.APTModule),
-      },
-    ],
+    // children: [
+    //   {
+    //     path: 'apt',
+    //     loadChildren: () =>
+    //       import('./pages/apt/apt.module').then((m) => m.APTModule),
+    //   },
+    // ],
   },
   // {
   //     path: '', component: AppLayoutComponent,
