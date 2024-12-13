@@ -1,51 +1,43 @@
 import { Injectable } from '@angular/core'
 import { StorageService } from './storage.service'
+import { LoginResponse } from '@core/models'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  nameItem = 'UserOPENSIPCA'
+
   constructor(private _storageService: StorageService) {}
 
-  public login(userInfo: any) {
-    sessionStorage.setItem('UserOPENSIPCA', JSON.stringify(userInfo))
-  }
-
-  public isLoggedIn() {
-    return sessionStorage.getItem('UserOPENSIPCA') !== null
-  }
-
-  public logout() {
-    sessionStorage.removeItem('UserOPENSIPCA')
-  }
-
-  public getCurrentUser() {
-    return sessionStorage.getItem('UserOPENSIPCA')
-  }
-
-  // SESSION STORAGE ENCRIPTADO
-
-  setSessionStorage(key: string, value: any) {
-    this._storageService.secureStorage.setItem(key, value)
+  setSessionStorage(value: any) {
+    this._storageService.setItem(this.nameItem, value)
   }
 
   getSessionStorage(key: string) {
-    const user = this._storageService.secureStorage.getItem(key)
-    if (user) {
-      user.username = user.username.toUpperCase()
-    }
-    return user
+    return this._storageService.getItem(key)
   }
 
   userIsLoggedIn(key: string) {
-    return this._storageService.secureStorage.getItem(key) !== null
+    return this.getSessionStorage(key) !== null
   }
 
   clearToken() {
-    return this._storageService.secureStorage.clear()
+    this._storageService.clear()
   }
 
-  user() {
-    return this.getSessionStorage('userOPENSIPCA')
+  getUser() {
+    const data: LoginResponse = this.getSessionStorage(this.nameItem)
+    return data?.user ?? null
+  }
+
+  getToken() {
+    const data: LoginResponse = this.getSessionStorage(this.nameItem)
+    return data?.token ?? null
+  }
+
+  getMenu() {
+    const data: LoginResponse = this.getSessionStorage(this.nameItem)
+    return data?.menu ?? []
   }
 }
