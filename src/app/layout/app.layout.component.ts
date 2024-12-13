@@ -1,15 +1,18 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core'
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { filter, Subscription } from 'rxjs'
 import { LayoutService } from './service/app.layout.service'
 import { AppSidebarComponent } from './components/appSidebar/app.sidebar.component'
 import { AppTopBarComponent } from './components/appTopbar/app.topbar.component'
+import { SessionExpiredService } from '@core/services/session-expired.service'
+import { GlobalMessageService } from './service/global-message.service'
+import { ToastComponent } from '@shared/components'
 
 @Component({
   selector: 'app-layout',
   templateUrl: './app.layout.component.html',
 })
-export class AppLayoutComponent implements OnDestroy {
+export class AppLayoutComponent implements OnInit, OnDestroy {
   overlayMenuOpenSubscription: Subscription
 
   menuOutsideClickListener: any
@@ -20,10 +23,18 @@ export class AppLayoutComponent implements OnDestroy {
 
   @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent
 
+  @ViewChild(ToastComponent) toast!: ToastComponent
+
+  mssgRef!: Subscription
+  sessionRef!: Subscription
+  sessionExpired!: boolean
+
   constructor(
-    public layoutService: LayoutService,
+    public router: Router,
     public renderer: Renderer2,
-    public router: Router
+    public layoutService: LayoutService,
+    private _session: SessionExpiredService,
+    private _globalMessage: GlobalMessageService,
   ) {
     this.overlayMenuOpenSubscription =
       this.layoutService.overlayOpen$.subscribe(() => {
@@ -82,6 +93,21 @@ export class AppLayoutComponent implements OnDestroy {
         this.hideMenu()
         this.hideProfileMenu()
       })
+  }
+
+  ngOnInit() {
+    this.mssgRef = this._globalMessage.customMessage.subscribe((errMssg) => {
+      this.toast?.showMessageByStatus(errMssg)
+    })
+
+    this.sessionRef = this._session.customMessage.subscribe((expired) => {
+      if (expired) {
+        this.sessionExpired = true
+        setTimeout(() => {
+          this.router.navigate(['auth/login'])
+        }, 5000)
+      }
+    })
   }
 
   hideMenu() {
@@ -149,5 +175,9 @@ export class AppLayoutComponent implements OnDestroy {
     if (this.menuOutsideClickListener) {
       this.menuOutsideClickListener()
     }
+
+    this._session.emit(null)
+    this.mssgRef.unsubscribe()
+    this.sessionRef.unsubscribe()
   }
 }

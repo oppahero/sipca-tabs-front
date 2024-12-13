@@ -28,6 +28,8 @@ import { OperationsComponent } from './components/operations/operations.componen
 import { ConsultaLiberacionColadaPlanosModule } from '@pages/cal/lab/cons-liberacion-coladas-planos/cons-liberacion-colada-planos.module'
 import { AutorizacionAsocColadaOfaPlanosModule } from '@pages/cal/lab/autorizacion-asoc-colada-ofa-planos/autorizacion-asoc-colada-ofa-planos.module'
 
+import { SessionExpiredComponent, ToastComponent } from '../shared/components'
+
 @NgModule({
   declarations: [
     AppMenuitemComponent,
@@ -56,6 +58,8 @@ import { AutorizacionAsocColadaOfaPlanosModule } from '@pages/cal/lab/autorizaci
     AvatarModule,
 
     // !AÑADIDO
+    ToastComponent,
+    SessionExpiredComponent,
     AccordionModule,
     ButtonModule,
     EjecProgCargaLargosModule,
