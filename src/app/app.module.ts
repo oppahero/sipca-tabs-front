@@ -12,9 +12,9 @@ import { NotfoundComponent } from './demo/components/notfound/notfound.component
 
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-// import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor'
-// import { httpInterceptor } from './core/interceptors/http.interceptor'
-// import { provideHttpClient, withInterceptors } from '@angular/common/http'
+import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor'
+import { httpInterceptor } from './core/interceptors/http.interceptor'
+import { provideHttpClient, withInterceptors } from '@angular/common/http'
 
 @NgModule({
   declarations: [AppComponent,NotfoundComponent],
@@ -27,7 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
   providers: [
     DatePipe,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    // provideHttpClient(withInterceptors([errorHandlerInterceptor, httpInterceptor])),
+    provideHttpClient(withInterceptors([errorHandlerInterceptor, httpInterceptor])),
   ],
   bootstrap: [AppComponent],
 })
