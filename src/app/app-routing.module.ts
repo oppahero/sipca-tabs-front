@@ -7,10 +7,7 @@ import { AppLayoutComponent } from './layout/app.layout.component'
 const appRoutes: Routes = [
   {
     path: 'auth',
-    loadChildren: () =>
-      import('./auth/auth.module').then(
-        (m) => m.AuthModule
-      ),
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 
   {
@@ -49,14 +46,11 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      appRoutes,
-      {
-        scrollPositionRestoration: 'enabled',
-        anchorScrolling: 'enabled',
-        onSameUrlNavigation: 'reload',
-      }
-    ),
+    RouterModule.forRoot(appRoutes, {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+    }),
   ],
   exports: [RouterModule],
 })
