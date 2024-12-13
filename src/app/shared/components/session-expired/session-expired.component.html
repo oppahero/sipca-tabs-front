@@ -1,0 +1,36 @@
+<app-dialog
+  width="30vw"
+  [footer]="false"
+  [displayHelp]="display"
+  [modal]="true"
+  [closable]="false"
+  [breakpoints]="breakpoints"
+>
+  <div
+    body
+    class="flex align-items-center justify-content-center overflow-hidden"
+  >
+    <div class="flex flex-column align-items-center justify-content-center">
+      <div class="w-full py-3 px-5 sm:px-8 flex flex-column align-items-center">
+        <div class="grid flex flex-column align-items-center">
+          <div
+            class="flex justify-content-center align-items-center bg-pink-500 border-circle"
+            style="height: 3.2rem; width: 3.2rem"
+          >
+            <i class="pi pi-fw pi-exclamation-circle text-2xl text-white"></i>
+          </div>
+          <h1 class="text-900 font-bold text-5xl mb-2">{{ header }}</h1>
+          <span id="expired-message" class="text-600 mb-5">{{ message }}</span>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-arrow-right"
+            label="Ir al Login"
+            class="p-button-text"
+            routerLink="auth/login"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-dialog>
