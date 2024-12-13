@@ -1,27 +1,23 @@
 import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { MessageService } from 'primeng/api'
-import { ToastModule } from 'primeng/toast'
+import { ToastModule, ToastPositionType } from 'primeng/toast'
 
 @Component({
   selector: 'app-toast',
   standalone: true,
   imports: [CommonModule, ToastModule],
-  template: `
-    <p-toast
-      position="top-right"
-      [style]="{ marginTop: '60px' }"
-      key="tc"
-    ></p-toast>
-  `,
+  template: ' <p-toast [position]="position" key="tc"></p-toast> ',
   providers: [MessageService],
 })
 export class ToastComponent {
-  constructor(private messageService: MessageService) {}
+  position: ToastPositionType = 'top-right'
+
+  constructor(private _messageService: MessageService) {}
 
   showSuccess(successMsg: string) {
-    this.messageService.clear()
-    this.messageService.add({
+    this._messageService.clear()
+    this._messageService.add({
       key: 'tc',
       severity: 'success',
       summary: 'Información',
@@ -30,32 +26,41 @@ export class ToastComponent {
   }
 
   showError(errMsg: string) {
-    this.messageService.clear()
-    this.messageService.add({
+    // this.messageService.clear()
+    this._messageService.add({
       key: 'tc',
       severity: 'error',
-      summary: 'Información',
+      summary: 'Error',
       detail: errMsg,
     })
   }
 
   showInfo(infMsg: string) {
-    this.messageService.clear()
-    this.messageService.add({
+    this._messageService.clear()
+    this._messageService.add({
       key: 'tc',
       severity: 'info',
-      summary: 'Info',
+      summary: 'Información',
       detail: infMsg,
     })
   }
 
   showWarn(warnMsg: string) {
-    this.messageService.clear()
-    this.messageService.add({
+    this._messageService.clear()
+    this._messageService.add({
       key: 'tc',
       severity: 'warn',
-      summary: 'Información',
+      summary: 'Alerta',
       detail: warnMsg,
     })
+  }
+
+  /**
+   *
+   * @param err Estructura enviada por el Error Handler Interception
+   */
+  showMessageByStatus(err) {
+    if (err.status === 409) this.showInfo(err.message)
+    else this.showError(err.message)
   }
 }
