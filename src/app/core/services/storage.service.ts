@@ -33,4 +33,19 @@ export class StorageService {
     }
   })
 
+  getSecureStorage() {
+    return this.secureStorage
+  }
+
+  setItem(nameItem: string, value: any) {
+    this.secureStorage.setItem(nameItem, value)
+  }
+
+  getItem(key: string) {
+    return this.secureStorage.getItem(key)
+  }
+
+  clear() {
+    this.secureStorage.clear()
+  }
 }
