@@ -64,7 +64,7 @@ export class AutCargaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = this._authService.user()
+    this.user = this._authService.getUser()
     this.setCols()
     this.consult()
   }

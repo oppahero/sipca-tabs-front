@@ -124,7 +124,7 @@ export class AutorizacionAsocColadaOfaPlanosComponent {
   }
 
   consult() {
-    this.user = this._authService.user()
+    this.user = this._authService.getUser()
 
     const aux = { ...this.results.parametro }
 

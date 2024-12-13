@@ -116,7 +116,7 @@ export class AutCargaDetComponent implements OnInit {
 
     const { N_SECUEN_PROG } = this.results.parametro
 
-    this.user = this._authService.user()
+    this.user = this._authService.getUser()
 
     this.results.parametro = {
       PAR_IDEN: this.user?.username || '',

@@ -23,6 +23,6 @@ export class AppTopBarComponent {
     public layoutService: LayoutService,
     private _authService: AuthService,
   ) {
-    this.user =  this._authService.user()
+    this.user =  this._authService.getUser()
   }
 }

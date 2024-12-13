@@ -77,7 +77,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     this.results.parametro =
       this._consLiberacionColadaPlanosService.getParams()
 
-    this.user = this._authService.user()
+    this.user = this._authService.getUser()
     this.results.parametro.PAR_IDEN = this.user.username
 
     if (this._consLiberacionColadaPlanosService.getParams()) {
