@@ -8,7 +8,6 @@ import { AyudaEdoProgramaService } from '@core/services/apt'
 @Component({
   selector: 'app-edo-programa',
   templateUrl: './edo-programa.component.html',
-  styleUrls: ['./edo-programa.component.scss'],
 })
 export class EdoProgramaComponent implements OnInit {
   @Input() displayHelp!: boolean
@@ -34,7 +33,7 @@ export class EdoProgramaComponent implements OnInit {
       { field: 'DD_EDO_PROG_REDUCI', header: 'Desc. Abrev. Edo. Prog.' },
       { field: 'DD_EDO_PROG', header: 'Estado Programa' },
     ]
-    this.user = this._authService.user()
+    this.user = this._authService.getUser()
     this.consult()
   }
 
