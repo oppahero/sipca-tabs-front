@@ -6,3 +6,8 @@ export const ejecProgCargaMap: { [key: string]: Type<any> } = {
   AutCargaComponent,
   AutCargaDetComponent,
 }
+
+export const ejecProgCargaCommand = {
+  componentName: 'AutCargaComponent',
+  componentMap: ejecProgCargaMap,
+}
