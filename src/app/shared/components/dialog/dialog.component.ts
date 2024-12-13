@@ -14,11 +14,13 @@ export class DialogComponent {
   @Input() maximizable!: boolean
   @Input() modal!: boolean
   @Input() resizable!: boolean
+  @Input() footer: boolean = true
   @Input() closable!: boolean
   @Input() height!: string
   @Input() width!: string
   @Input() header: string
   @Input() breakpoints!: object
+  @Input() contentStyle!: object
 
   constructor() {
     this.width = '50vw'

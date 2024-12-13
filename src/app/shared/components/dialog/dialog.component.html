@@ -10,12 +10,13 @@
   [contentStyle]="{ height: height }"
   [closable]="closable"
   [breakpoints]="breakpoints" 
+  [contentStyle]="contentStyle" 
 >
   <ng-content select="[header]"></ng-content>
 
   <ng-content select="[body]"></ng-content>
 
-  <ng-template pTemplate="footer">
+  <ng-template pTemplate="footer" *ngIf="footer">
     <ng-content></ng-content>
   </ng-template>
 </p-dialog>
