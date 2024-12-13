@@ -42,8 +42,9 @@
       onerror="this.onerror=null; this.src= 'assets/dist/img/user.png';"
     /> -->
 
+    <!-- [image]="util.getUrlPhoto(user?.dni)" -->
     <p-avatar
-      [image]="util.getUrlPhoto(user?.dni)"
+      image="assets/img/user.png" 
       shape="circle"
       onImageError="assets/img/user.png"
       styleClass="mr-2"
