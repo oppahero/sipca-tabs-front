@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext'
 import { MessagesModule } from 'primeng/messages'
 import { ProgressBarModule } from 'primeng/progressbar'
 import { MessageService } from 'primeng/api'
+import { ToastComponent } from '@shared/components'
 
 @NgModule({
   imports: [
@@ -22,7 +23,9 @@ import { MessageService } from 'primeng/api'
     PasswordModule,
     ReactiveFormsModule,
     MessagesModule,
-    ProgressBarModule
+    ProgressBarModule,
+
+    ToastComponent
   ],
   declarations: [LoginComponent],
   providers: [MessageService]
