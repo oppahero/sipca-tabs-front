@@ -101,11 +101,14 @@ export class DynamicTabsComponent implements OnDestroy {
 
     if (historyLength) {
       const last = this.tabs[tabIndex].history[historyLength - 1]
-      this.tabs[tabIndex] = {
-        ...this.tabs[tabIndex],
-        component: last.component,
-        data: last.data
-      }
+      // this.tabs[tabIndex] = {
+      //   ...this.tabs[tabIndex],
+      //   component: last.component,
+      //   data: last.data
+      // }
+      this.tabs[tabIndex].component = last.component
+      this.tabs[tabIndex].data = last.data
+
     }
   }
 
