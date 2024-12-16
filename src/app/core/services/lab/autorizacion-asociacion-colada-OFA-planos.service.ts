@@ -16,7 +16,7 @@ export class AutorizacionAsociacionColadaOFAPlanosService {
   accion_aux: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'autorizacionAsociacionColadaOFAPlanos'
+    this._url = environment.apiUrl + 'lab/autorizacionAsociacionColadaOFAPlanos'
   }
 
   getAll(data: any) {

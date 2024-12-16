@@ -10,7 +10,7 @@ export class AyudaEdoProgramaService {
   private _url: string
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'edoProgramas'
+    this._url = environment.apiUrl + 'apt/edoProgramas'
   }
 
   getAll(data: any): Observable<any> {

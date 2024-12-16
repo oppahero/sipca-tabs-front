@@ -10,7 +10,7 @@ export class ConsLiberacionColadaPlanosMttoService {
   params: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'liberacion-coladas-planos'
+    this._url = environment.apiUrl + 'lab/liberacion-coladas-planos'
   }
 
   getAll(data: any) {

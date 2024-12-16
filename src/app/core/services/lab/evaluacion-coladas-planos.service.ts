@@ -13,7 +13,7 @@ export class EvaluacionColadasPlanosService {
   colada : any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'evaluacion-coladas-planos'
+    this._url = environment.apiUrl + 'lab/evaluacion-coladas-planos'
   }
 
   getAll(data: any) {

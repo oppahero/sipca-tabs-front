@@ -10,7 +10,7 @@ export class AutCargaLargosCanService {
   private _url: string
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'ejec-prog-cargas-largos-cancela'
+    this._url = environment.apiUrl + 'apt/ejec-prog-cargas-largos-cancela'
   }
 
   cancel(data: any): Observable<any> {

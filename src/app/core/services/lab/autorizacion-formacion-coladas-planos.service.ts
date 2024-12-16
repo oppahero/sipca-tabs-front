@@ -11,7 +11,7 @@ export class AutFormacionColadasPlanosService {
   colada: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'autFormacionColadasPlanos'
+    this._url = environment.apiUrl + 'lab/autFormacionColadasPlanos'
   }
 
   getAll(data: any) {

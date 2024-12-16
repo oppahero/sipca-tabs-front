@@ -13,7 +13,7 @@ export class AutCargaLargosDetService {
   private _url: string
 
   constructor(private _http: HttpClient, private _util: GlobalService) {
-    this._url = environment.apiUrl + 'prog-carga-largos-detalle'
+    this._url = environment.apiUrl + 'apt/prog-carga-largos-detalle'
   }
 
   getAll(data): Observable<MDWResponse> {

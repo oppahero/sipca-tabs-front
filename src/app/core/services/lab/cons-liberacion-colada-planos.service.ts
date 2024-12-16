@@ -14,7 +14,7 @@ export class ConsLiberacionColadaPlanosService {
   colada: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'cons-liberacion-coladas-planos'
+    this._url = environment.apiUrl + 'lab/cons-liberacion-coladas-planos'
   }
 
   getAll(data: MDWResponse): Observable<MDWResponse> {

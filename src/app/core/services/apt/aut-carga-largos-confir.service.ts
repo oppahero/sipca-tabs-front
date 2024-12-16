@@ -10,7 +10,7 @@ export class AutCargaLargosConfirService {
   private _url: string
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'ejec-prog-cargas-largos-confirma'
+    this._url = environment.apiUrl + 'apt/ejec-prog-cargas-largos-confirma'
   }
 
   confirm(data: any): Observable<any> {

@@ -15,7 +15,7 @@ export class AutCargaLargosService {
   date: any
 
   constructor(private _http: HttpClient, private _util: GlobalService) {
-    this._url = environment.apiUrl + 'ejec-prog-cargas-largos'
+    this._url = environment.apiUrl + 'apt/ejec-prog-cargas-largos'
   }
 
   getAll(data: MDWResponse): Observable<MDWResponse> {
