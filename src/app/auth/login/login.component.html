@@ -1,17 +1,20 @@
-<p-progressBar *ngIf="loading"  mode="indeterminate" [style]="{ height: '4px' }" />
+<p-progressBar
+  *ngIf="loading"
+  mode="indeterminate"
+  [style]="{ height: '4px' }"
+/>
 <!-- <p-messages [(value)]="messages" [enableService]="false" /> -->
 
 <div
   class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
 >
-
   <div class="flex flex-column align-items-center justify-content-center">
     <img
       src="assets/img/5.webp"
       alt="Sakai logo"
       class="mb-5 w-5rem flex-shrink-0"
     />
-    
+
     <!-- <img
       src="assets/layout/images/{{
         layoutService.config().colorScheme === 'light'
@@ -86,7 +89,11 @@
               pRipple
               label="Acceder"
               class="w-full p-3 text-xl"
-              style="display: block"
+              style="
+                display: block;
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+              "
               [disabled]="this.loginForm.invalid || loading"
             ></button>
           </div>
