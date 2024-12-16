@@ -19,11 +19,13 @@ export interface LoginResponse {
 // }
 
 export interface MDWResponse {
-  parametro: any;
-  tabla?;
-  tabla1?;
-  tabla2?;
-  tabla3?;
-  tabla4?;
-  tabla5?;
+  parametro: any
+  tabla?: any[]
+  tabla1?: any[]
+  tabla2?: any[]
+  tabla3?: any[]
+  tabla4?: any[]
+  tabla5?: any[]
+  tabla6?: any[]
+  tabla7?: any[]
 }
