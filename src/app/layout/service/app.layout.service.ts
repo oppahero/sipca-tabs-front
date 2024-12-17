@@ -55,7 +55,6 @@ export class LayoutService {
     effect(() => {
       const config = this.config()
       if (this.updateStyle(config)) {
-        console.log('cambio el tema')
         this.changeTheme()
       }
       this.changeScale(config.scale)
@@ -64,8 +63,6 @@ export class LayoutService {
   }
 
   updateStyle(config: AppConfig) {
-    console.log(config.theme)
-    console.log(this._config.theme)
     return (
       config.theme !== this._config.theme ||
             config.colorScheme !== this._config.colorScheme
