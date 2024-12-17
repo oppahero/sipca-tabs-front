@@ -6,3 +6,8 @@ export const consLibColadasPlnMap: { [key: string]: Type<any> } = {
   ConsultaLiberacionColadaPlanosComponent,
   AutorizacionAsocColadaOfaPlanosComponent
 }
+
+export const lconsLibColadasPlnCommand = {
+  componentName: 'ConsultaLiberacionColadaPlanosComponent',
+  componentMap: consLibColadasPlnMap
+}

@@ -4,3 +4,8 @@ import { AutorizacionAsocColadaOfaPlanosComponent } from './autorizacion-asoc-co
 export const autAsocColadaOfaPlnMap: { [key: string]: Type<any> } = {
   AutorizacionAsocColadaOfaPlanosComponent
 }
+
+export const autAsocColadaOfaPlnCommand = {
+  componentName: 'AutorizacionAsocColadaOfaPlanosComponent',
+  componentMap: autAsocColadaOfaPlnMap,
+}
