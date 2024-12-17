@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class OperationsService {
-  private _message = new BehaviorSubject<any>([])
+  private _message = new Subject<any>()
 
-  customMessage = this._message.asObservable()
+  operation$ = this._message.asObservable()
 
   add(items: any): void {
     this._message.next(items)
