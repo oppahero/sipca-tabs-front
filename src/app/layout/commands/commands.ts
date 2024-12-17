@@ -1,13 +1,6 @@
-import { Type } from '@angular/core'
-import { ejecProgCargaCommand } from '@pages/apt/psd/ejecucion-programa-carga/component-map'
+import { ejecProgCargaCommand } from '@pages/apt/apt-command'
+import { OperationCommand } from '../api/command.interface'
 
-export interface CommandOperation {
-  componentName: string;
-  componentMap: {
-    [key: string]: Type<any>;
-  };
-}
-
-export const commandOperation: { [key: string]: CommandOperation } = {
-  ejecProgCargaCommand
+export const operationCommand: { [key: string]: OperationCommand } = {
+  ejecProgCargaCommand,
 }
