@@ -44,7 +44,7 @@ export class EdoProgramaComponent implements OnInit {
   getAll() {
     this.loading = true
 
-    this._edoProgramaService.getAll(this.results).subscribe({
+    this._edoProgramaService.get(this.results).subscribe({
       next: (response) => {
         this.results.parametro = response.parametro
         this.rows = this.filter(response)

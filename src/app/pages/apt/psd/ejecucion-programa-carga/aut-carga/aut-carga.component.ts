@@ -1,6 +1,6 @@
 import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component'
-import { ConfirmDialogComponent, ToastComponent } from '@shared/components'
 import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { ConfirmDialogComponent } from '@shared/components'
 import { AuthService, GlobalService } from '@core/services'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Column, MDWResponse, User } from '@core/models'
@@ -22,14 +22,12 @@ export class AutCargaComponent implements OnInit {
   cols: Column[]
   rows: any[]
   selected: any
-
   results: MDWResponse = { parametro: {}, tabla: [] }
   date: Date
 
   loading = false
   displayHelp = false
 
-  @ViewChild(ToastComponent) toast: ToastComponent
   @ViewChild(ConfirmDialogComponent) confirm: ConfirmDialogComponent
 
   @Input() hash: number
@@ -102,10 +100,10 @@ export class AutCargaComponent implements OnInit {
     console.log(err)
   }
 
-  getAll() {
+  get() {
     this.loading = true
 
-    this._autCargaService.getAll(this.results).subscribe({
+    this._autCargaService.get(this.results).subscribe({
       next: (res) => this.success(res),
       error: (err) => this.catchError(err),
       complete: () => {
@@ -140,10 +138,10 @@ export class AutCargaComponent implements OnInit {
       N_SECUEN_VIAJE: '',
     }
 
-    this.getAll()
+    this.get()
   }
 
-  refreshConsult(results) {
+  refreshConsult(results: MDWResponse) {
     if (
       results.parametro.W_TIPO_MENSA === '' ||
       results.parametro.W_TIPO_MENSA === 'IN'
@@ -151,12 +149,7 @@ export class AutCargaComponent implements OnInit {
       this.consult()
   }
 
-  successCs(results) {
-    // this.notification(
-    //   results.parametro.W_TIPO_MENSA,
-    //   results.parametro.W_MENSA
-    // )
-
+  successCs(results: MDWResponse) {
     this.refreshConsult(results)
   }
 
@@ -195,7 +188,7 @@ export class AutCargaComponent implements OnInit {
 
   nextPage() {
     this.results.parametro.ACCION = 'S'
-    this.getAll()
+    this.get()
   }
 
   nextPageFlag(): boolean {
@@ -267,37 +260,28 @@ export class AutCargaComponent implements OnInit {
     })
   }
 
-  saveParams() {
-    this._autCargaService.setParams(this.results.parametro)
-    this._autCargaService.setDate(this.date)
-  }
-
   navigate(route: string, value: any) {
-    this.saveParams()
+    // this.saveParams()
     this._router.navigate([route, value], {
       relativeTo: this._activatedRoute,
     })
   }
-
-  /** Manejadores del dialog */
 
   displayChange(value: boolean) {
     this.displayHelp = value
   }
 
   selectedHelp(value: any) {
-    this.results.parametro.C_EDO_PROG_MDW = this._util.fillWithCeros(
-      value.NN_EDO_PROG,
-      2
-    )
-    this.results.parametro.D_EDO_PROG = value.DD_EDO_PROG
+    this.results.parametro = {
+      ...this.results.parametro,
+      C_EDO_PROG_MDW: this._util.fillWithCeros(value.NN_EDO_PROG, 2),
+      D_EDO_PROG: value.DD_EDO_PROG,
+    }
   }
 
   selectedRow(value: any) {
     this.selected = value
   }
-
-  /** Confirms Dialog */
 
   confirmDialog() {
     this.confirm.show('¿Está seguro que desea confirmar la carga?', 'confirm')

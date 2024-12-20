@@ -1,71 +1,99 @@
-<p-toolbar>
-  <div class="p-fluid">
-    <div class="p-field p-grid">
-      <div class="p-col-2">
-        <label for="CC_EDO_COLADA1" class="p-col-fixed p-d-flex p-jc-end"
-          >Estado Colada:</label
+<div class="grid mb-2">
+  <div class="col-12">
+    <div class="card card--operation">
+      <div class="p-fluid p-formgrid grid">
+        <div
+          class="field col-12 xl:col-4 lg:col-8 md:col-8 sm:col-7 field--operation"
         >
-      </div>
-      <div class="p-col-1">
-        <input
-          id="CC_EDO_COLADA"
-          type="text"
-          maxlength="2"
-          pInputText
-          [(ngModel)]="results.parametro.CC_EDO_COLADA"
-        />
-      </div>
-
-      <div class="p-col-4">
-        <input
-          id="C_COLADA"
-          type="text"
-          maxlength="6"
-          pInputText
-          placeholder="RETENIDA QUIMICA FUERA ESPECIF."
-        />
-      </div>
-      <div class="p-col-2">
-        <label for="C_COLADA" class="p-col-fixed p-d-flex p-jc-end"
-          >Colada:</label
+          <label for="CC_EDO_COLADA">Estado Colada</label>
+          <p-inputGroup>
+            <input
+              id="CC_EDO_COLADA"
+              type="text"
+              maxlength="2"
+              pInputText
+              [(ngModel)]="results.parametro.CC_EDO_COLADA"
+              style="width: 20%"
+            />
+            <input
+              id="C_COLADA"
+              type="text"
+              maxlength="6"
+              pInputText
+              placeholder="RETENIDA QUIMICA FUERA ESPECIF."
+              style="width: 80%"
+            />
+          </p-inputGroup>
+        </div>
+        <div
+          class="field col-12 xl:col-2 lg:col-3 md:col-3 sm:col-3 field--operation"
         >
-      </div>
-      <div class="p-col-2">
-        <input
-          id="C_COLADA_I"
-          type="text"
-          maxlength="6"
-          pInputText
-          [(ngModel)]="results.parametro.C_COLADA_I"
-        />
-      </div>
-    </div>
-    <div class="p-field p-grid">
-      <div class="p-col-3">
-        <label class="p-col-fixed p-d-flex p-jc-end"
-          >Ver Coladas por Estado:</label
+          <label for="C_COLADA">Colada</label>
+          <input
+            id="C_COLADA_I"
+            type="text"
+            maxlength="6"
+            pInputText
+            [(ngModel)]="results.parametro.C_COLADA_I"
+          />
+        </div>
+        <div
+          class="field field--operation flex-align-end"
+          style="padding: 0.3rem"
         >
-      </div>
-      <div class="p-col-3">
-        <button
-          pButton
-          pRipple
-          pTooltip="Mostrar ayuda"
-          tooltipPosition="top"
-          label="..."
-          style="width: 30%"
-          (click)="displayChangeCxE(true)"
-        ></button>
-      </div>
-      <div class="p-col-2">
-        <button pButton pRipple label="Consultar" (click)="consult()"></button>
+          <!-- <label>Coladas</label> -->
+          <p-button
+            pTooltip="Ver Coladas por Estado"
+            tooltipPosition="bottom"
+            label="..."
+            styleClass="{width: auto}"
+            (click)="displayChangeCxE(true)"
+          ></p-button>
+        </div>
+        <div class="field field--operation flex-align-end">
+          <p-button
+            pRipple
+            label="Consultar"
+            (click)="consult()"
+            styleClass="{width: auto}"
+          ></p-button>
+        </div>
       </div>
     </div>
   </div>
-</p-toolbar>
-<br />
+</div>
 
-<p-table
+<app-basic-table
+  [autoLayout]="true"
+  [loading]="loading"
+  [resizable]="true"
+  [cols]="cols"
+  [rows]="rows"
+  [selected]="selected"
+  [pag]="results.parametro.PAG"
+  [paginator]="false"
+  (selectedEvent)="selectedRow($event)"
+>
+  <p-button
+    class="mr-2"
+    label="Liberar Condicionada "
+    (click)="libercond()"
+    [disabled]="liberarFlag()"
+  ></p-button>
+  <p-button
+    class="mr-2"
+    label="Liberar "
+    (click)="confirmDialog()"
+    [disabled]="liberarFlag()"
+  ></p-button>
+  <p-button
+    label="Siguiente"
+    [disabled]="nextPageFlag()"
+    (click)="nextPage()"
+  ></p-button>
+</app-basic-table>
+
+<!-- <p-table
   [autoLayout]="true"
   [loading]="loading"
   [resizableColumns]="true"
@@ -124,30 +152,26 @@
         </div>
 
         <div class="p-col-10">
-          <button
-            pButton
-            type="button"
-            style="margin: 0px 10px 0px 0px"
+          <p-button
+            
+            class="mr-2"
             label="Liberar Condicionada "
             (click)="libercond()"
             [disabled]="liberarFlag()"
-          ></button>
-          <button
-            pButton
-            type="button"
-            style="margin: 0px 10px 0px 0px"
+          ></p-button>
+          <p-button
+            
+            class="mr-2"
             label="Liberar "
             (click)="confirmDialog()"
             [disabled]="liberarFlag()"
-          ></button>
-          <button
-            pButton
-            type="button"
-            style="margin: 0px 10px 0px 0px"
+          ></p-button>
+          <p-button
+            
             label="Siguiente"
             [disabled]="nextPageFlag()"
             (click)="nextPage()"
-          ></button>
+          ></p-button>
         </div>
       </div>
     </div>
@@ -160,7 +184,7 @@
     [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
     [W_MENSA]="results.parametro.W_MENSA"
   ></app-transaction-info>
-</p-table>
+</p-table> -->
 
 <!-- <app-coladas-xedo-planos
   (displayEvent)="displayChangeCxE($event)"

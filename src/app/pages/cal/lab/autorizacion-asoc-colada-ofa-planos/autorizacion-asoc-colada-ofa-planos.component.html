@@ -1,88 +1,78 @@
-<p-toolbar>
-  <div class="p-fluid">
-    <div class="p-field p-grid">
-      <div class="p-col-2">
-        <label for="C_COLADA" class="p-col-fixed p-d-flex p-jc-end"
-          ><b>Colada:</b></label
+<div class="grid mb-2">
+  <div class="col-12">
+    <div class="card card--operation">
+      <div class="p-fluid p-formgrid grid">
+        <div
+          class="field col-12 xl:col-2 lg:col-3 md:col-3 sm:col-3 field--operation"
         >
-      </div>
-      <div class="p-col-2">
-        <input
-          id="C_COLADA"
-          type="text"
-          maxlength="6"
-          pInputText
-          [(ngModel)]="results.parametro.C_COLADA"
-          [disabled]="backFlag_"
-        />
-      </div>
-      <div class="p-col-3">
-        <label for="M_ESTADO" class="p-col-fixed p-d-flex p-jc-end"
-          >Estado Colada:</label
+          <label for="C_COLADA">Colada</label>
+          <input
+            id="C_COLADA"
+            maxlength="6"
+            pInputText
+            [(ngModel)]="results.parametro.C_COLADA"
+            [disabled]="backFlag_"
+          />
+        </div>
+        <div
+          class="field col-12 xl:col-4 lg:col-7 md:col-7 sm:col-7 field--operation"
         >
-      </div>
-      <div class="p-col-3">
-        <input
-          id="M_ESTADO"
-          type="text"
-          pInputText
-          style="width: 100%"
-          [(ngModel)]="results.parametro.M_ESTADO"
-          disabled
-        />
-      </div>
-      <div class="p-col-2">
-        <button
-          pButton
-          pRipple
-          pTooltip="Mostrar ayuda"
-          tooltipPosition="top"
-          label="..."
-          (click)="displayChangeCxE(true)"
-          [style]="'visibility:' + (backFlag_ ? 'hidden' : 'visible')"
-        ></button>
-      </div>
-    </div>
+          <label for="M_ESTADO">Estado Colada</label>
+          <p-inputGroup>
+            <input
+              id="M_ESTADO"
+              pInputText
+              style="width: 80%"
+              [(ngModel)]="results.parametro.M_ESTADO"
+              disabled
+            />
+            <p-button
+              pRipple
+              pTooltip="Mostrar ayuda"
+              tooltipPosition="bottom"
+              label="..."
+              (click)="displayChangeCxE(true)"
+              [styleClass]="'visibility:' + (backFlag_ ? 'hidden' : 'visible')"
+              styleClass="{width: 20%}"
+            ></p-button>
+          </p-inputGroup>
+        </div>
+        <div
+          class="field col-12 xl:col-2 lg:col-4 md:col-4 sm:col-4 field--operation"
+        >
+          <label for="C_TIPO_ACERO">Tipo de Acero</label>
+          <p-inputGroup>
+            <input
+              style="width: 50%"
+              id="C_TIPO_ACERO"
+              pInputText
+              [(ngModel)]="results.parametro.C_TIPO_ACERO"
+              maxlength="4"
+              disabled
+            />
+            <input
+              id="N_VERSIO_ACERO"
+              pInputText
+              style="width: 50%"
+              [(ngModel)]="results.parametro.N_VERSIO_ACERO"
+              disabled
+            />
+          </p-inputGroup>
+        </div>
 
-    <div class="p-field p-grid">
-      <div class="p-col-7">
-        <label for="C_TIPO_ACERO" class="p-col-fixed p-d-flex p-jc-end"
-          >Tipo de Acero:</label
-        >
-      </div>
-      <div class="p-col-3">
-        <input
-          id="C_TIPO_ACERO"
-          type="text"
-          style="width: 50%; margin: 0px 0px 0px 0px"
-          pInputText
-          [(ngModel)]="results.parametro.C_TIPO_ACERO"
-          maxlength="4"
-          disabled
-        />
-        <input
-          id="N_VERSIO_ACERO"
-          type="text"
-          pInputText
-          style="width: 50%"
-          [(ngModel)]="results.parametro.N_VERSIO_ACERO"
-          disabled
-        />
-      </div>
-      <div class="p-col-2.5">
-        <button
-          pButton
-          pRipple
-          label="Consultar"
-          (click)="consult()"
-          [disabled]="backFlag_"
-        ></button>
+        <div class="field field--operation flex-align-end">
+          <p-button
+            pRipple
+            label="Consultar"
+            (click)="consult()"
+            [disabled]="backFlag_"
+            styleClass="{width: auto}"
+          ></p-button>
+        </div>
       </div>
     </div>
   </div>
-</p-toolbar>
-
-<br />
+</div>
 
 <p-table
   [autoLayout]="true"
@@ -92,9 +82,7 @@
   styleClass="p-datatable-sm"
   selectionMode="single"
   [value]="rows"
-  disabled
 >
-  <!-- [(selection)]="selected"  -->
   <ng-template pTemplate="caption">
     <div class="p-d-flex p-ai-center p-jc-between">
       <h6 class="p-m-0">
@@ -145,31 +133,24 @@
 </p-table>
 
 <p-toolbar styleClass="p-mb-12 ">
-  <div style="text-align: center; width: 100%">
-    <button
-      pButton
-      type="button "
-      style="margin: 0px 10px 0px 0px"
+  <div style="text-align: right; width: 100%">
+    <p-button
+      class="mr-2"
       label="Alta "
       (click)="alta()"
       [disabled]="addFlag()"
-    ></button>
-    <button
-      pButton
-      type="button "
-      style="margin: 0px 10px 0px 0px"
+    ></p-button>
+    <p-button
+      class="mr-2"
       label="Modificar "
       (click)="modificar()"
       [disabled]="updateFlag()"
-    ></button>
-    <button
-      pButton
-      type="button "
-      style="margin: 0px 10px 0px 0px"
+    ></p-button>
+    <p-button
       label="volver "
       (click)="back()"
       [disabled]="!backFlag_"
-    ></button>
+    ></p-button>
   </div>
 </p-toolbar>
 

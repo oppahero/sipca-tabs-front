@@ -28,23 +28,21 @@
     >
       <ng-content select="[table-buttons]"></ng-content>
 
-      <button
+      <p-button
         *ngIf="previousFlag"
-        pButton
         type="button"
         label="Anterior"
-        style="margin-right: 10px"
+        class="mr-2"
         [disabled]="previousPageFlag()"
         (click)="previousPage()"
-      ></button>
-      <button
+      ></p-button>
+      <p-button
         *ngIf="nextFlag"
-        pButton
         type="button"
         label="Siguiente"
         [disabled]="nextPageFlag()"
         (click)="nextPage()"
-      ></button>
+      ></p-button>
     </app-basic-table>
 
     <ng-content></ng-content>
@@ -52,12 +50,14 @@
 
   <div>
     <p-button
+      severity="danger"
       (click)="select()"
       label="Aceptar"
       styleClass="p-button-text"
       [disabled]="!selected"
     ></p-button>
     <p-button
+      severity="danger"
       (click)="close()"
       label="Cerrar"
       styleClass="p-button-text"

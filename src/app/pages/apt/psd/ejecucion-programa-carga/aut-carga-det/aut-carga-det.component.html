@@ -54,18 +54,16 @@
   [paginator]="false"
   [pag]="results.parametro.PAG"
 >
-  <button
-    pButton
-    class="mr-2"
+  <p-button
     label="Siguiente"
     [disabled]="nextPageFlag()"
-    (click)=" this.get()"
-  ></button>
+    (click)="this.get()"
+  ></p-button>
 </app-basic-table>
 
 <p-toolbar>
   <div class="p-toolbar-group-end">
-    <button pButton class="mr-2" label="Volver" (click)="back()"></button>
+    <p-button label="Volver" (click)="back()"></p-button>
   </div>
 </p-toolbar>
 
@@ -76,5 +74,3 @@
   [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
   [W_MENSA]="results.parametro.W_MENSA"
 ></app-transaction-info>
-
-<app-toast></app-toast>

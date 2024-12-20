@@ -1,9 +1,8 @@
 import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component'
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { AutCargaLargosDetService } from '@core/services/apt'
 import { AuthService, GlobalService } from '@core/services'
-import { Column, MDWResponse, User} from '@core/models'
-import { ToastComponent } from '@shared/components'
+import { Column, MDWResponse, User } from '@core/models'
 
 @Component({
   selector: 'app-aut-carga-det',
@@ -17,15 +16,10 @@ export class AutCargaDetComponent implements OnInit {
   results: MDWResponse = { parametro: {}, tabla: [] }
   loading = false
 
-  @ViewChild(ToastComponent) toast: ToastComponent
-
-  @Input() hash : number
+  @Input() hash: number
 
   @Input() set data(value: any) {
-    console.log('DATA en det', value)
-
-    if(value)
-      this.results.parametro.N_SECUEN_PROG = value
+    if (value) this.results.parametro.N_SECUEN_PROG = value
 
     this.consult()
   }
@@ -34,7 +28,7 @@ export class AutCargaDetComponent implements OnInit {
     private _util: GlobalService,
     private _authService: AuthService,
     private _dynamicTabs: DynamicTabsComponent,
-    private _autCargaDetService: AutCargaLargosDetService,
+    private _autCargaDetService: AutCargaLargosDetService
   ) {
     this.title = 'Autorización Carga - Detalle'
   }
@@ -72,55 +66,33 @@ export class AutCargaDetComponent implements OnInit {
     return results['tabla'].filter((x) => x.CC_ORDEN_ENTREGA_MDW != '')
   }
 
-  notification(aux: string, mssg: string) {
-    switch (aux) {
-    case 'FE':
-      this.toast.showError(mssg)
-      break
-    case 'WA':
-      this.toast.showWarn(mssg)
-      break
-    default:
-      this.toast.showSuccess(mssg)
-      break
-    }
-  }
-
   success(response: MDWResponse) {
     this.rows = this.filter(response)
     this.results.parametro = response['parametro']
-    this.notification(
-      response.parametro.W_TIPO_MENSA,
-      response.parametro.W_MENSA
-    )
   }
 
   catchError(err) {
     console.log(err)
-    this.toast.showError('Ha ocurrido un error.')
   }
 
   get() {
     this.loading = true
 
-    this._autCargaDetService
-      .getAll(this.results)
-      .subscribe({
-        next: (res) =>this.success(res),
-        error: (err: Error) => this.catchError(err),
-        complete: () => this.loading = false
-      })
+    this._autCargaDetService.get(this.results).subscribe({
+      next: (res) => this.success(res),
+      error: (err) => this.catchError(err),
+      complete: () => (this.loading = false),
+    })
   }
 
   consult() {
-
     const { N_SECUEN_PROG } = this.results.parametro
 
     this.user = this._authService.getUser()
 
     this.results.parametro = {
       PAR_IDEN: this.user?.username || '',
-      N_SECUEN_PROG_MDW: this._util.validate(N_SECUEN_PROG)
+      N_SECUEN_PROG_MDW: this._util.validate(N_SECUEN_PROG),
     }
 
     this.get()
