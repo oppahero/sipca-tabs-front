@@ -2,21 +2,21 @@ import { Injectable, effect, signal } from '@angular/core'
 import { Subject } from 'rxjs'
 
 export interface AppConfig {
-    inputStyle: string;
-    colorScheme: string;
-    theme: string;
-    ripple: boolean;
-    menuMode: string;
-    scale: number;
+  inputStyle: string;
+  colorScheme: string;
+  theme: string;
+  ripple: boolean;
+  menuMode: string;
+  scale: number;
 }
 
 interface LayoutState {
-    staticMenuDesktopInactive: boolean;
-    overlayMenuActive: boolean;
-    profileSidebarVisible: boolean;
-    configSidebarVisible: boolean;
-    staticMenuMobileActive: boolean;
-    menuHoverActive: boolean;
+  staticMenuDesktopInactive: boolean;
+  overlayMenuActive: boolean;
+  profileSidebarVisible: boolean;
+  configSidebarVisible: boolean;
+  staticMenuMobileActive: boolean;
+  menuHoverActive: boolean;
 }
 
 @Injectable({
@@ -28,7 +28,7 @@ export class LayoutService {
     inputStyle: 'outlined',
     menuMode: 'static', //static  overlay
     colorScheme: 'light',
-    theme: 'lara-light-indigo',  // bootstrap4-light-blue
+    theme: 'lara-light-indigo', // bootstrap4-light-blue
     scale: 11,
   }
 
@@ -55,7 +55,6 @@ export class LayoutService {
     effect(() => {
       const config = this.config()
       if (this.updateStyle(config)) {
-        console.log('cambio el tema')
         this.changeTheme()
       }
       this.changeScale(config.scale)
@@ -64,11 +63,9 @@ export class LayoutService {
   }
 
   updateStyle(config: AppConfig) {
-    console.log(config.theme)
-    console.log(this._config.theme)
     return (
       config.theme !== this._config.theme ||
-            config.colorScheme !== this._config.colorScheme
+      config.colorScheme !== this._config.colorScheme
     )
   }
 
@@ -82,10 +79,9 @@ export class LayoutService {
 
     if (this.isDesktop()) {
       this.state.staticMenuDesktopInactive =
-                !this.state.staticMenuDesktopInactive
+        !this.state.staticMenuDesktopInactive
     } else {
-      this.state.staticMenuMobileActive =
-                !this.state.staticMenuMobileActive
+      this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive
 
       if (this.state.staticMenuMobileActive) {
         this._overlayOpen.next(null)
@@ -147,14 +143,11 @@ export class LayoutService {
     cloneLinkElement.setAttribute('href', href)
     cloneLinkElement.setAttribute('id', id + '-clone')
 
-        themeLink.parentNode!.insertBefore(
-          cloneLinkElement,
-          themeLink.nextSibling
-        )
-        cloneLinkElement.addEventListener('load', () => {
-          themeLink.remove()
-          cloneLinkElement.setAttribute('id', id)
-        })
+    themeLink.parentNode!.insertBefore(cloneLinkElement, themeLink.nextSibling)
+    cloneLinkElement.addEventListener('load', () => {
+      themeLink.remove()
+      cloneLinkElement.setAttribute('id', id)
+    })
   }
 
   changeScale(value: number) {

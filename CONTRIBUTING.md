@@ -9,11 +9,13 @@
 - [Roles](#memo-roles)
 - [Crear Rama](#seedling-crear-rama)
 - [Cambiar de Rama](#arrow_right_hook-cambiar-de-rama)
+- [Actualizar Ramas](#actualizar-ramas)
 - [Subir Cambios](#outbox_tray-subir-rama)
 - [Incidentes](#beetle-incidentes)
 - [Merge Request](#love_letter-merge-requests)
 - [Revisión de Código](#white_check_mark-revisión-de-código)
 - [Estilo de Codificación](#nail_care-estilo-de-codificación)
+- [Reglas para documentar los commits en el proyecto](#reglas-para-documentar-los-commits-en-el-proyecto)
 
 > **Esta guía sirve para establecer expectativas claras para todos los involucrados en el proyecto. Seguir estas pautas ayudará a garantizar una experiencia positiva para los contribuyentes y mantenedores.**
 
@@ -155,7 +157,7 @@ Puedes crear la rama desde el vsCode, para ello entra a la opción 'Source Contr
 
 
 > [!IMPORTANT]
-> Como nombre de la rama pon el nombre de la operación a desarrollar
+> Como nombre de la rama pon el nombre de la operación, servicio ó ayuda a desarrollar/modificar, cumpliendo la siguiente nomenclatura: Nombre de la operación sin espacios blancos, sin acentos y  tipo PascalCase. Ejemplo: **EjecucionDeProgramaDeCargaPlanoss**
 
 ## :arrow_right_hook: Cambiar de Rama
 
@@ -163,6 +165,12 @@ Para cambiar de rama desde el vsCode, entra a la opción '*Source Control*' del 
 
 1. Se abrirá un menú con la lista de ramas disponibles
 2. Selecciona la rama a la que deseas cambiarte
+
+## Actualizar ramas
+
+Para listar ramas locales y referencias a las ramas remotas ``*git branch -a``
+
+Para actualizar la lista de ramas remotas que siguen disponibles en el reposiorio ``*git remote update origin --prune``
 
 ## :outbox_tray: Subir cambios 
 
@@ -219,3 +227,33 @@ La coherencia es lo más importante. Siguiendo las convenciones de estilo, forma
 * Los nombres de las clases e interfaces deben estar en PascalCase. Ejemplo: `EjecucionProgramaCargaComponent`
 
 Cuando sea posible, el estilo y el formato se aplicarán con un linter.
+
+# Reglas para documentar los commits en el proyecto
+
+1. Idioma español. <br>
+2. Iniciar con letra mayúscula. <br>
+3. No usar punto final ni puntos suspensivos en tus mensajes. <br>
+4. Usar como máximo 100 caracteres. <br>
+5. Usar prefijos (**Nuevo**, **Modificación**, **Corrección**, **Documentación**, **Estandarización**, **Estilo**) al inicio del mensaje. Ejemplos:<br>
+
+- **Nuevo:** Se añade la funcionalidad del botón eliminar
+
+- **Modificación:** Se modifica lógica para filtrar por el campo pieza
+
+- **Corrección:** Se corrige falla en la paginación
+
+- **Documentación:** Se actualiza el archivo readme
+
+- **Estandarización:** Se cambia el  nombre de variables de entrada y la función Crear
+
+- **Estilo:** Se cambia el color de la platilla principal
+
+
+6. Usar  verbo imperativo. **En presente**.<br>
+
+Ejemplo:
+
+Modificación: Se añade  un nuevo archivo para imprimir cartas
+
+> [!IMPORTANT]
+> Se recomienda hacer commits regularmente, por funcionalidad y no al final de la jornada. Esto para poder  restaurar cambios puntuales de ser requeridos. Por ejemplo. Si se realiza la lógica de una consulta,  luego de validar su correcto funcionamiento proceder a hacer commits de esos cambios y posteriormente pasar al siguiente desarrollo.

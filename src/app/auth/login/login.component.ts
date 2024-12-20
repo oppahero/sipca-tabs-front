@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AuthService, LdapService } from '@core/services'
+import { ToastComponent } from '@shared/components'
+import { LoginResponse } from '@core/models'
 import { Router } from '@angular/router'
-import { Message } from 'primeng/api'
-import { LayoutService } from 'src/app/layout/service/app.layout.service'
-import { User } from 'src/app/core/models'
 import { FullScreenService } from '../fullScreen.service'
-import { AuthService, LdapService, UserService } from 'src/app/core/services'
 
 @Component({
   selector: 'app-login',
@@ -18,32 +17,22 @@ import { AuthService, LdapService, UserService } from 'src/app/core/services'
         margin-right: 1rem;
         color: var(--primary-color) !important;
       }
-
-      // .progress{
-      //   position: fixed;
-      //   top:0;
-      //   left: 0;
-      //   z-index: 1000;
-      // }
     `,
   ],
 })
 export class LoginComponent implements OnInit {
   loading = false
-  error = ''
-  user: User
-
-  loginForm: FormGroup
   isSubmitted = false
-  messages: Message[] | undefined
+  loginForm!: FormGroup
+  dataResponse: LoginResponse
+
+  @ViewChild(ToastComponent) toast: ToastComponent
 
   constructor(
-    public layoutService: LayoutService,
     private _router: Router,
+    private _formBuilder: FormBuilder,
     private _ldapService: LdapService,
     private _authService: AuthService,
-    private _formBuilder: FormBuilder,
-    private _userService: UserService,
     private _fullScreenService: FullScreenService
   ) {}
 
@@ -69,35 +58,13 @@ export class LoginComponent implements OnInit {
     this.loading = true
 
     this._ldapService.login(formData).subscribe({
-      next: (response) => {
-        if (response.result) {
-          this.user = {
-            username: formData.username,
-            name: response.result,
-          }
-
-          this.getDni(formData)
-        } else {
-          this.addMessage(response.message)
-          this.loading = false
-        }
+      next: (res) => {
+        this.isSubmitted = true
+        this.dataResponse = res
+        this.success()
       },
       error: (e) => {
-        console.error(e)
-        this.loading = false
-      },
-    })
-  }
-
-  getDni(formData) {
-    this._userService.getCiBySir({ siglado: formData.username }).subscribe({
-      next: (response) => {
-        const aux: any = response.pop()
-        if (aux) this.user.dni = aux.cedula
-      },
-      error: (e) => console.log(e),
-      complete: () => {
-        this.success()
+        this.toast.showMessageByStatus(e)
         this.loading = false
       },
     })
@@ -105,11 +72,7 @@ export class LoginComponent implements OnInit {
 
   success() {
     this._fullScreenService.setFullScreen(true)
-    this._authService.setSessionStorage('userOPENSIPCA', this.user)
-    this._router.navigate([''])
-  }
-
-  addMessage(message: string) {
-    this.messages = [{ severity: 'warn', summary: message }]
+    this._authService.setSessionStorage(this.dataResponse)
+    this._router.navigate(['/'])
   }
 }

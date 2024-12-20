@@ -11,7 +11,7 @@
     [ngStyle]="{ color: getColor() }"
   ></i>
 
-  <!-- {{ W_MENSA }} -->
+  {{ W_MENSA }}
 </div>
 
 <app-dialog
@@ -22,7 +22,7 @@
   [modal]="true"
   [resizable]="false"
   [closable]="false"
-  [breakpoints]="{ '1199px': '40vw', '750px': '50vw' , '575px': '90vw' }"
+  [breakpoints]="{ '1199px': '40vw', '750px': '50vw', '575px': '90vw' }"
 >
   <div body>
     <div class="p-fluid p-formgrid grid">
@@ -49,6 +49,7 @@
   </div>
   <div>
     <p-button
+      severity="danger"
       (click)="display(false)"
       label="Cerrar"
       styleClass="p-button-text"

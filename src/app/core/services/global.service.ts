@@ -9,51 +9,6 @@ export class GlobalService {
   urlPhoto: string
   urlAssets: string
 
-  es = {
-    firstDayOfWeek: 1,
-    dayNames: [
-      'domingo',
-      'lunes',
-      'martes',
-      'miércoles',
-      'jueves',
-      'viernes',
-      'sábado',
-    ],
-    dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-    monthNames: [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre',
-    ],
-    monthNamesShort: [
-      'ene',
-      'feb',
-      'mar',
-      'abr',
-      'may',
-      'jun',
-      'jul',
-      'ago',
-      'sep',
-      'oct',
-      'nov',
-      'dic',
-    ],
-    today: 'Hoy',
-    clear: 'Borrar',
-  }
-
   MESSAGE_CODES = {
     FE: 'FE',
     WA: 'WA',
@@ -182,7 +137,7 @@ export class GlobalService {
     let x
 
     entero = number.substr(0, longEntera)
-    x = entero.split('.') //x=entero.concat('.'.toString());
+    x = entero.split('.')
     decimal = number.substr(longEntera, longDecimal)
     const numDecimal = x.concat(decimal)
     x = numDecimal[0] + '.' + numDecimal[1]
@@ -253,16 +208,7 @@ export class GlobalService {
   formatDatey(date: any): any {
     const pattern = /(\d{2})(\d{2})(\d{2})/
     const replace = date.replace(pattern, '$1/$2/$3')
-    /*let format = this.datePipe.transform(replace, 'dd/MM/yyyy');
 
-    let dateString = format.toString();
-    let dateMomentObject = moment(dateString, 'DD/MM/YYYY');
-    let dateObject = dateMomentObject.toDate();
-
-    // console.log("NEW DATE FORMAT: ", this.datePipe.transform(replace, 'dd/MM/yyyy'));
-    // return format;
-
-    return dateObject;*/
     return replace
   }
 

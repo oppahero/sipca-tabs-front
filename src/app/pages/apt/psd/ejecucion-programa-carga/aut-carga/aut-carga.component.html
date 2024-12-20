@@ -83,25 +83,30 @@
               style="width: 70%"
               pInputText
             />
-            <button
-              pButton
+            <p-button
               pRipple
-              style="width: auto"
+              styleClass="{width: auto}"
               pTooltip="Mostrar ayuda"
               tooltipPosition="top"
               label="..."
               (click)="displayChange(true)"
-            ></button>
+            ></p-button>
           </p-inputGroup>
         </div>
         <div class="field field--operation flex-align-end">
-          <button
+          <!-- <button
             style="width: auto"
             pButton
             pRipple
             label="Consultar"
+            (click)="consult()" 
+          ></button> -->
+          <p-button
+            pRipple
+            styleClass="{width: auto}"
+            label="Consultar"
             (click)="consult()"
-          ></button>
+          />
         </div>
       </div>
     </div>
@@ -119,76 +124,60 @@
   [paginator]="false"
   (selectedEvent)="selectedRow($event)"
 >
-  <button pButton class="mr-2" label="Detalle" (click)="detail()"></button>
-  <button
-    pButton
-    class="mr-2"
+  <p-button class="mr-2" label="Detalle" (click)="detail()"></p-button>
+  <p-button
     [disabled]="nextPageFlag()"
     (click)="nextPage()"
     label="Siguiente"
-  ></button>
+  ></p-button>
 </app-basic-table>
 
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <button
-      pButton
+    <p-button
       class="mr-2"
       label="Reordenar"
       [disabled]="rearrangeFLag()"
       (click)="rearrange()"
-    ></button>
-    <button
-      pButton
+    ></p-button>
+    <p-button
       class="mr-2"
       label="Dev. Frente"
       [disabled]="devFrenteFlag()"
       (click)="devFrent()"
-    ></button>
-    <button
-      pButton
+    ></p-button>
+    <p-button
       class="mr-2"
       label="Confirmación"
       (click)="confirmDialog()"
       [disabled]="devFrenteFlag()"
-    ></button>
-    <button
-      pButton
+    ></p-button>
+    <p-button
       class="mr-2"
       label="Cancelar"
       (click)="cancelDialog()"
       [disabled]="rearrangeFLag()"
-    ></button>
+    ></p-button>
     <!-- <button pButton type="button" label="Alta" (click)="register()"></button> -->
-    <button
-      pButton
-      class="mr-2"
-      label="Cancelar"
-      (click)="cancelDialog()"
-      [disabled]="rearrangeFLag()"
-    ></button>
   </div>
   <div class="p-toolbar-group-end">
-    <button
-      pButton
+    <p-button
       class="mr-2"
       label="Desp Cent Ext"
       (click)="externalCenterOffice()"
-    ></button>
-    <button
-      pButton
+    ></p-button>
+    <p-button
       class="mr-2"
       label="ReImp. Autoriz."
       (click)="reprint()"
       [disabled]="reprintFlag()"
-    ></button>
-    <button
-      pButton
+    ></p-button>
+    <p-button
       class="mr-2"
       label="Seguimiento"
       (click)="tracking()"
       [disabled]="!selected"
-    ></button>
+    ></p-button>
   </div>
 </p-toolbar>
 
@@ -208,5 +197,3 @@
 
 <app-confirm-dialog (acceptEvent)="confirmDialogAccept($event)">
 </app-confirm-dialog>
-
-<app-toast></app-toast>

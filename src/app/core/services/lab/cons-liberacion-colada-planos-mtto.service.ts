@@ -7,23 +7,12 @@ import { environment } from 'src/environments/environment'
 })
 export class ConsLiberacionColadaPlanosMttoService {
   private _url: string
-  params: any
 
   constructor(private _http: HttpClient) {
-    this._url = environment.apiUrl + 'liberacion-coladas-planos'
+    this._url = environment.apiUrl + 'lab/liberacion-coladas-planos'
   }
 
   getAll(data: any) {
     return this._http.post<any>(this._url, data)
-  }
-
-  /** GETS Y SETS */
-
-  getParams(): any {
-    return this.params ? this.params : {}
-  }
-
-  setParams(params: any) {
-    this.params = params
   }
 }

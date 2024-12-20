@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { MenuItem } from 'primeng/api'
-import { GlobalService } from 'src/app/core/services'
 import { OperationsService } from '../../service/operations.service'
+import { OpenInTabService } from '../../service/open-in-tab.service'
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { operationCommand } from '../../commands/commands'
+import { MenuItem } from 'primeng/api'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-operations',
@@ -17,23 +19,41 @@ import { OperationsService } from '../../service/operations.service'
 })
 export class OperationsComponent implements OnInit, OnDestroy {
   items!: MenuItem[]
+  operationSuscription!: Subscription
 
   constructor(
-    private _util: GlobalService,
-    private _operation: OperationsService
+    private _operation: OperationsService,
+    private _dynamicTab: OpenInTabService
   ) {}
 
   ngOnInit(): void {
-    this._operation.customMessage.subscribe((x) => {
-      this.items = x.items
+    this.operationSuscription = this._operation.operation$.subscribe((data) => {
+      if (data.items) this.addCommandsToOperationsMenu(data.items)
     })
   }
 
   ngOnDestroy() {
-    this.items = []
+    if (this.operationSuscription) this.operationSuscription.unsubscribe()
   }
 
-  activeMenu($event) {
-    // this._operation.active($event.target.textContent)
+  addCommandsToOperationsMenu(operations: MenuItem[]) {
+    this.items = operations.map((group) => {
+      group.items = group.items.map((item) => {
+        return {
+          ...item,
+          command: () => {
+            this.operationClick(item, item.command.toString())
+          },
+        }
+      })
+      return group
+    })
+  }
+
+  operationClick(item: MenuItem, commandName: string) {
+    this._dynamicTab.newTab({
+      label: item.label,
+      ...operationCommand[commandName],
+    })
   }
 }

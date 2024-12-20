@@ -45,9 +45,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
   @Input() hash: number
 
   @Input() set data(value: any) {
-
     if (value) {
-      console.log('Liberacion colada', value)
       const { params } = value
       this.results.parametro = params
     }
@@ -74,25 +72,25 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     this.setCols()
     this.liberaFlag = false
 
-    this.results.parametro =
-      this._consLiberacionColadaPlanosService.getParams()
+    // this.results.parametro =
+    //   this._consLiberacionColadaPlanosService.getParams()
 
     this.user = this._authService.getUser()
     this.results.parametro.PAR_IDEN = this.user.username
 
-    if (this._consLiberacionColadaPlanosService.getParams()) {
-      this.getAll()
-    } else {
-      this.consult()
-    }
+    // if (this._consLiberacionColadaPlanosService.getParams()) {
+    //   this.getAll()
+    // } else {
+    //   this.consult()
+    // }
   }
 
   setCols() {
     this.cols = [
-      { field: 'C_COLADA' },
-      { field: 'C_TIPO_ACERO' },
-      { field: 'N_VERSIO_ACERO' },
-      { field: 'D_RESUL_ENSAY' },
+      { field: 'C_COLADA', header:'Colada' },
+      { field: 'C_TIPO_ACERO', header:'Tipo Acero' },
+      { field: 'N_VERSIO_ACERO', header: 'Versión Acero' },
+      { field: 'D_RESUL_ENSAY', header:'Resultado Ensayo' },
     ]
   }
 
@@ -145,7 +143,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     console.log(err)
   }
 
-  getAll() {
+  get() {
     this.loading = true
 
     this._consLiberacionColadaPlanosService.getAll(this.results).subscribe({
@@ -153,7 +151,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
         this.success(res)
         this.dropdownEC(res)
       },
-      error: (err: Error) => this.catchError(err),
+      error: (err) => this.catchError(err),
       complete: () => {
         this.loading = false
       },
@@ -167,11 +165,10 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
       .getAll(this.resultsLiberar)
       .subscribe({
         next: (res) => {
-          this.loading = false
           this.liberaFlag = true
           this.tipoMensa = res.parametro.W_TIPO_MENSA
           this.mensa = res.parametro.W_MENSA
-          this.getAll()
+          this.get()
         },
         error: (err: Error) => this.catchError(err),
         complete: () => {
@@ -194,7 +191,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
       C_COLADA_I: this._util.validate(aux.C_COLADA_I),
     }
 
-    this.getAll()
+    this.get()
   }
 
   nextPageFlag(): boolean {
@@ -219,7 +216,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
         W_CLAVE_CDA: aux.W_PRIM_LIN,
       },
     }
-    this.getAll()
+    this.get()
   }
 
   libercond() {
@@ -251,7 +248,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     this.confirm.show('¿Está seguro que desea continuar?', 'liberar')
   }
 
-  confirmDialogAccept(key) {
+  confirmDialogAccept(key: string) {
     switch (key) {
     case 'liberar':
       this.liberar()
@@ -292,19 +289,19 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
     this.PAG_N = this.results.parametro.PAG - 1
     this.PAG = this._util.formatNumberToString(this.PAG_N.toString(), 3, 0)
 
-    this._consLiberacionColadaPlanosService.setParams({
-      PAG: this._util.validate(this.PAG),
-      ACCION: '',
-      W_ISN: '',
-      PAR_IMPRE: '',
-      PAR_IDEN: this.user.username,
-      W_CLAVE_CDA: this._util.validate(this.results.parametro.W_INI_CONSU),
-    })
+    // this._consLiberacionColadaPlanosService.setParams({
+    //   PAG: this._util.validate(this.PAG),
+    //   ACCION: '',
+    //   W_ISN: '',
+    //   PAR_IMPRE: '',
+    //   PAR_IDEN: this.user.username,
+    //   W_CLAVE_CDA: this._util.validate(this.results.parametro.W_INI_CONSU),
+    // })
 
     if (this.selected) {
-      this._autorizacionAsociacionColadaOFAPlanosService.setParams({
-        C_COLADA: this.selected.C_COLADA,
-      })
+      // this._autorizacionAsociacionColadaOFAPlanosService.setParams({
+      //   C_COLADA: this.selected.C_COLADA,
+      // })
     }
   }
 
@@ -314,5 +311,9 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
 
   selectedHelpCxE(value: any) {
     this.results.parametro.CC_COLADA = value.CC_COLADA
+  }
+
+  selectedRow(value: any) {
+    this.selected = value
   }
 }

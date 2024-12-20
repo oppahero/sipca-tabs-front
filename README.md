@@ -34,3 +34,5 @@ Para listar ramas locales y referencias a las ramas remotas
 
 Para actualizar la lista de ramas remotas que siguen disponibles en el reposiorio
 *git remote update origin --prune
+
+https://medium.com/@philip.mutua/setting-up-environment-variables-for-an-angular-application-from-scratch-737028f8b7b3
