@@ -24,15 +24,6 @@ export class ExcelService {
         const worksheet = xlsx.utils.json_to_sheet(data)
         this.wrapAndCenterCell(worksheet['A1'])
 
-        // let rowIndex = 1;
-        // for (rowIndex; rowIndex <= worksheet.rowCount; rowIndex++) {
-        //   worksheet.getRow(rowIndex).alignment = {
-        //     vertical: 'middle',
-        //     horizontal: 'center',
-        //     wrapText: true
-        //   };
-        // }
-
         const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] }
         const excelBuffer: any = xlsx.write(workbook, {
           bookType: 'xls',
@@ -47,7 +38,6 @@ export class ExcelService {
     this.setCellStyle(cell, wrapAndCenterCellStyle)
   }
 
-  // object antes {}
   setCellStyle(cell: XLSX.CellObject, style: object) {
     cell.s = style
   }

@@ -11,14 +11,12 @@ import { MDWResponse } from '@core/models'
 })
 export class AutCargaLargosService {
   private _url: string
-  params: any
-  date: any
 
   constructor(private _http: HttpClient, private _util: GlobalService) {
     this._url = environment.apiUrl + 'apt/ejec-prog-cargas-largos'
   }
 
-  getAll(data: MDWResponse): Observable<MDWResponse> {
+  get(data: MDWResponse): Observable<MDWResponse> {
     return this._http.post<MDWResponse>(this._url, data).pipe(
       tap((result) => {
         this.formatCols(result.tabla)
@@ -34,25 +32,4 @@ export class AutCargaLargosService {
     })
   }
 
-  /** GETS Y SETS */
-
-  getParams(): any {
-    return this.params ?? {}
-  }
-
-  setParams(params: any) {
-    this.params = params
-  }
-
-  getDate(): any {
-    return this.date ? this.date : null
-  }
-
-  setDate(item: any) {
-    this.date = item
-  }
-
-  setAut(aut) {
-    this.params.N_SECUEN_PROG_MDW = aut
-  }
 }

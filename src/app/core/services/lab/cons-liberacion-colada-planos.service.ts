@@ -10,9 +10,6 @@ import { Observable } from 'rxjs'
 export class ConsLiberacionColadaPlanosService {
   private _url: string
 
-  params: any
-  colada: any
-
   constructor(private _http: HttpClient) {
     this._url = environment.apiUrl + 'lab/cons-liberacion-coladas-planos'
   }
@@ -21,21 +18,4 @@ export class ConsLiberacionColadaPlanosService {
     return this._http.post<MDWResponse>(this._url, data)
   }
 
-  /** GETS Y SETS */
-
-  getParams(): any {
-    return this.params ? this.params : {}
-  }
-
-  setParams(params: any) {
-    this.params = params
-  }
-
-  getColada(): any {
-    return this.colada ? this.colada : ''
-  }
-
-  setColada(colada: any) {
-    this.colada = colada
-  }
 }
