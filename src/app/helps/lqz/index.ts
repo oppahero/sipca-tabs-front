@@ -1,0 +1,1 @@
+export * from './instalaciones-sicop/instalaciones-sicop.component';
