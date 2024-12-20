@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-// import { FullScreenService } from '../fullScreen.service'
 import { AuthService, LdapService } from '@core/services'
 import { ToastComponent } from '@shared/components'
 import { LoginResponse } from '@core/models'
 import { Router } from '@angular/router'
+import { FullScreenService } from '../fullScreen.service'
 
 @Component({
   selector: 'app-login',
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _ldapService: LdapService,
     private _authService: AuthService,
-    // private _fullScreenService: FullScreenService
+    private _fullScreenService: FullScreenService
   ) {}
 
   ngOnInit() {
@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   success() {
+    this._fullScreenService.setFullScreen(true)
     this._authService.setSessionStorage(this.dataResponse)
     this._router.navigate(['/'])
   }
