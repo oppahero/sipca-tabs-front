@@ -1,6 +1,6 @@
 import { Type } from '@angular/core'
 
-export interface History {
+export interface BrowsingHistory {
   componentName: string;
   component: Type<any>;
   data?: any;
@@ -10,7 +10,7 @@ export interface Tab {
   title: string;
   component: Type<any>;
   id: number;
-  history?: History[];
+  history?: BrowsingHistory[];
   componentMap?: { [key: string]: Type<any> };
   data?: any;
 
