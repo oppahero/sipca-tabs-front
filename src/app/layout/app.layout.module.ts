@@ -21,14 +21,13 @@ import { PanelMenuModule } from 'primeng/panelmenu'
 import { AvatarModule } from 'primeng/avatar'
 import { AccordionModule } from 'primeng/accordion'
 import { ButtonModule } from 'primeng/button'
-import { EjecProgCargaLargosModule } from '@pages/apt/psd/ejecucion-programa-carga/ejecucion-programa-carga.module'
 import { DynamicTabsComponent } from './components/dynamicTabs/dynamicTabs.component'
 import { OpenInTabService } from './service/open-in-tab.service'
 import { OperationsComponent } from './components/operations/operations.component'
-import { ConsultaLiberacionColadaPlanosModule } from '@pages/cal/lab/cons-liberacion-coladas-planos/cons-liberacion-colada-planos.module'
-import { AutorizacionAsocColadaOfaPlanosModule } from '@pages/cal/lab/autorizacion-asoc-colada-ofa-planos/autorizacion-asoc-colada-ofa-planos.module'
 
 import { SessionExpiredComponent, ToastComponent } from '../shared/components'
+import { AptModule } from '@pages/apt/apt.module'
+import { CalModule } from '@pages/cal/cal.module'
 
 @NgModule({
   declarations: [
@@ -39,7 +38,7 @@ import { SessionExpiredComponent, ToastComponent } from '../shared/components'
     AppSidebarComponent,
     AppLayoutComponent,
     OperationsComponent,
-    DynamicTabsComponent
+    DynamicTabsComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,11 +61,11 @@ import { SessionExpiredComponent, ToastComponent } from '../shared/components'
     SessionExpiredComponent,
     AccordionModule,
     ButtonModule,
-    EjecProgCargaLargosModule,
-    ConsultaLiberacionColadaPlanosModule,
-    AutorizacionAsocColadaOfaPlanosModule
+
+    AptModule,
+    CalModule,
   ],
   exports: [AppLayoutComponent],
-  providers: [OpenInTabService]
+  providers: [OpenInTabService],
 })
 export class AppLayoutModule {}
