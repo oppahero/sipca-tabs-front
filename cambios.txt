@@ -1,6 +1,24 @@
 INSTALAR:
     NodeJs 20.0.9 
 
+
+#Eslint integrado en el proyecto
+    -Instalar en el VSCode
+        eslint
+        ErrorLens
+
+    -Configuracion en VSCode settings.json
+        "[typescript]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+        },
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit"
+        },
+
+https://ej2.syncfusion.com/angular/documentation/tab/how-to/adding-dynamic-items-with-content-reuse?cs-save-lang=1&cs-lang=ts
+https://stackblitz.com/edit/angular-dynamic-tabs?file=app%2Fapp.component.ts
+
+
 #En la plantilla por defecto se indico 
     - Menu tipo Overlay
     - Tamaño letra 11px
@@ -44,12 +62,68 @@ INSTALAR:
     -dialog se le añadio la propiedad breakpoints (@input), al igual que a la ayuda, y ayuda-edo-programa
     -dialog se le añadio la propiedad width (@input)
 
+# Modelos
+  Las respuestas de los servicios que llaman a algun programa serán de tipo MDWResponse
+  No se tendrán definirán interfaces para los contenidos de las tablas, ni los parámetros
+  
+# Servicios
+  Los servicios ya no guardaran datos. Dejar solo la consulta al servicio
+
 # Operaciones en el TS
     -Los Promise los marca como obsoletos, por lo que se reemplaza por el suscribe
-    -Los parámtros obtenidos de la ruta ahora se acceden asignados asi:  this.activatedRoute.snapshot.params['autCarga']
+    -Los parámetros obtenidos de la ruta ahora se acceden asignados asi:  this.activatedRoute.snapshot.params['autCarga']
     -Los array COLS son de tipo  Column[]
         import { Column } from 'src/app/models/primeng'
         cols: Column[]
+    -Quitar referencia al toast, los componentes ya no tendrán un toast para los mensajes
+    -Las variables donde se recibirán datos del backend, serán de tipo MDResponse. 
+     En este punto se normalizarán las rutas de los servicios en el backend que se estén consumiendo en ese componente, y los nombres de las tablas que envian
+     Si en backend se recupera la Tabla1 para enviarla en la respuesta, será enviada como tabla1. Evitaremos enviarla solo como tabla
+     Tabla2 como tabla2, Tabla3 como tabla3,... y asi para cada una
+
+        Ejemplo en el TS    
+        results: MDWResponse = { parametro: {}, tabla1: [] }
+
+    -Añadir los inputs para recibir los parámetros iniciales de consulta en la operación y el hash del tab
+        @Input() hash: number       //El hash es importante ya que se usará para poder hacer navegación
+
+        @Input() set data(value: any) {
+            if (value) {
+                const { params , date } = value     // en este caso, la vista recibe los parametros y una valor de tipo fecha
+                this.results.parametro = params
+                this.date = date
+            }
+        }
+
+    -Añadir al constructor referencia al componente DynamicTabs
+        private _dynamicTabs: DynamicTabsComponent
+  
+        + Ejempo para navegar del componente A al B
+            detail() {
+                //1. Se guarda en el componente activo, es decir, el componente A, los datos de la vista.
+                //Es decir, los datos que debe tener cuando se navegue de regreso, del componente B al A
+                //El primer valor siempre es el hash, y el segundo los datos
+                this._dynamicTabs.setDataOnComponentActive(this.hash, {
+                    params: this.results.parametro,
+                    date: this.date,
+                })
+
+                //2. Se llama al navegar en el DynamicTabs
+                //Este método recibe tres valores
+                //El primero el hash
+                //Segundo el nombre del componente a donde se navegará, en un string
+                //Tercero, los datos de entrada. Este valor es opcional
+                this._dynamicTabs.navigateTo(
+                    this.hash,
+                    'AutCargaDetComponent',
+                    this.selected.NN_SECUEN_PROG
+                )
+            }
+        + Ejemplo para devolvernos a la vista anterior. Es decir, del componente B al a
+            back() {
+                this._dynamicTabs.back(this.hash)
+            }
+
     
 # Operaciones en el html
     + Cambiar las grillas e implementar las de PrimeFlex
@@ -87,27 +161,66 @@ INSTALAR:
         
         Nota: Se podria retirar  showButtonBar="true"
 
-    + Para las Tablas
+    + Para las Tablas que no sean de los componentes 
         -Añadir:
             styleClass="p-datatable-gridlines"
             scrollHeight="280px" (fixed headers)
 
-#Eslint integrado en el proyecto
-    -Instalar en el VSCode
-        eslint
-        ErrorLens
+# Operaciones
 
-    -Configuracion en VSCode settings.json
-        "[typescript]": {
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-        },
-        "editor.codeActionsOnSave": {
-            "source.fixAll": "explicit"
-        },
+    Antes todas las operaciones tenían su archivo de routing, donde se definia la navegación para esa operación
+    - Las operaciones y los módulos para no tendrán archivo de routing
 
-https://ej2.syncfusion.com/angular/documentation/tab/how-to/adding-dynamic-items-with-content-reuse?cs-save-lang=1&cs-lang=ts
-https://stackblitz.com/edit/angular-dynamic-tabs?file=app%2Fapp.component.ts
+    + Para que la operación pueda ser abierta en los tabs dinámicos:
+
+        1. Cada operación tendrá el archivo module (que ya conocen), ejemplo: ejecucion-programa-carga.module
+           y un achivo nuevo llamado component-map.ts
+
+           En ese archivo component-map.ts, definirán los sigt.
+
+            - La lista de componentes que están involucrados en esa operación (mapeo de la operación). Ejemplo:
+                Notese que el nombre de la función es una forma corta del nombre de la operación seguido de la palabra Map
+                export const ejecProgCargaMap: { [key: string]: Type<any> } = {
+                    AutCargaComponent,
+                    AutCargaDetComponent,
+                    ... //Y todos los componentes involucrados en Ejec de programa de carga
+                }
+            - Y el objeto donde se hará la relación entre el nombre del componente inicial y el mapeo de la operación
+                Notese que el nombre del objeto es una forma corta del nombre de la operación seguido de la palabra Command
+                export const ejecProgCargaCommand = {
+                    componentName: 'AutCargaComponent',
+                    componentMap: ejecProgCargaMap,
+                }
+        
+        2. Una vez definicio el objeto para el command de la operación, se registrará en el archivo command del módulo al que pertenece
+           En este caso, ejecucion de programa de carga pertenece al módulo APT:
+
+           - En el archivo [modulo]-command.ts se añadirá al export el objeto command de nuestra operación
+
+                import { ejecProgCargaCommand } from '@pages/apt/psd/ejecucion-programa-carga/component-map'
+
+                export {
+                    ejecProgCargaCommand
+                }
 
 
-FALTA SOLVENTAR
-<!-- (input)="dt.filter($event.target.value, col.field, 'startsWith')" -->
+        3. En pages, cada módulo (apt, cal...) tendrá un archivo module, donde exportará los módulos de las operaciones que pertenecen a el
+        Ejemplo: El AptModule exportará el módulo de EjecProgCargaLargosModule
+
+        - Cada vez que crees una nueva operación, debes añadir al export el módulo de tu operación
+
+            Ejemplo en AptModule:
+            
+            @NgModule({
+                exports: [
+                    CommonModule,
+                    EjecProgCargaLargosModule
+                    .
+                    .   //Y el resto de modulos de operaciones que son de APT
+                    .
+                ],
+                schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            })
+            export class AptModule {}
+
+      
