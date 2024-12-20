@@ -1,38 +1,22 @@
-import { Component, OnDestroy, Type } from '@angular/core'
 import { OpenInTabService } from '../../service/open-in-tab.service'
-import { Subscription } from 'rxjs'
 import { TabSelected } from '@core/models/tab-selected.interface'
-
-interface History {
-  componentName: string;
-  component: Type<any>;
-  data?: any;
-}
-
-interface Tab {
-  title: string;
-  component: Type<any>;
-  id: number;
-  history?: History[];
-  componentMap?: { [key: string]: Type<any> };
-  data?: any;
-
-  activeTab?: Type<any>;
-}
+import { Component, OnDestroy, Type } from '@angular/core'
+import { Tab } from '../../api/tab.interface'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-dynamic-tabs',
   templateUrl: './dynamicTabs.component.html',
 })
 export class DynamicTabsComponent implements OnDestroy {
-  tabsSuscription: Subscription
+  tabsSuscription!: Subscription
   tabs: Tab[] = []
   activeIndex: number | undefined = 0
 
   constructor(private _dynamicTabs: OpenInTabService) {
-    this.tabsSuscription = this._dynamicTabs.tab.subscribe(
+    this.tabsSuscription = this._dynamicTabs.tab$.subscribe(
       (selectedData: TabSelected) => {
-        if (!selectedData) return
+        // if (!selectedData) return
         const { componentName, componentMap } = selectedData
         const component = this.getComponentByName(componentMap, componentName)
         if (component) this.addTab(selectedData, component)
@@ -45,7 +29,7 @@ export class DynamicTabsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.tabsSuscription.unsubscribe()
+    if (this.tabsSuscription) this.tabsSuscription.unsubscribe()
   }
 
   closeTab(tab: Tab) {
@@ -108,7 +92,6 @@ export class DynamicTabsComponent implements OnDestroy {
       // }
       this.tabs[tabIndex].component = last.component
       this.tabs[tabIndex].data = last.data
-
     }
   }
 
@@ -121,7 +104,9 @@ export class DynamicTabsComponent implements OnDestroy {
 
     const activeComponent = this.tabs[tabIndex].component
 
-    const historyIndex = this.tabs[tabIndex].history.findIndex((i) => i.component === activeComponent )
+    const historyIndex = this.tabs[tabIndex].history.findIndex(
+      (i) => i.component === activeComponent
+    )
 
     this.tabs[tabIndex].history[historyIndex].data = data
   }
