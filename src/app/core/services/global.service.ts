@@ -44,7 +44,7 @@ export class GlobalService {
    * @returns Nuevo array
    */
 
-  cloneArray(array) {
+  cloneArray(array: any[]) {
     return array.map((element) => {
       if (typeof element === 'object')
         return JSON.parse(JSON.stringify(element))
@@ -56,68 +56,68 @@ export class GlobalService {
     return param ? this.formatDate(param) : ''
   }
 
-  removeDuplicatesFromArrayByKey(array, key) {
+  removeDuplicatesFromArrayByKey(array, key: string) {
     return [...new Map(array.map((item) => [item[key], item])).values()]
   }
 
-  isKeyExists(obj, key) {
+  isKeyExists(obj, key: string) {
     return obj[key] == undefined ? false : true
   }
 
   filterTableByFieldToRemoveEmptyRows(
-    results,
+    results: any[],
     key: string,
     field: string
   ): any {
     return results[key].filter((x) => x[field] != '')
   }
 
-  filter(results, table, field) {
+  filter(results: any[], table: string, field: string) {
     return this.filterTableByFieldToRemoveEmptyRows(results, table, field)
   }
 
   /**
    *
-   * @param dni : CI de trabajador
-   * @returns : Dirección para recuperar el recurso (foto del trabajador)
+   * @param dni string | number - CI de trabajador
+   * @returns string - Dirección para recuperar el recurso (foto del trabajador)
    */
 
-  getUrlPhoto(dni: any): string {
+  getUrlPhoto(dni: string | number): string {
     return this.urlPhoto + dni + '.jpg'
   }
 
   /**
    *
-   * @param value : Valor numérico. Example 102
-   * @param long : Longitud que debe tener value. Example 5
-   * @returns : Valor numérico de la longitud recibida. Los espacios son rellenados con cero, al final de value.
+   * @param value string - Valor numérico. Example 102
+   * @param long number - Longitud que debe tener value. Example 5
+   * @returns string - Valor numérico de la longitud recibida. Los espacios son rellenados con cero, al final de value.
    *            Example 10200
    */
 
-  padEnd(value, long) {
+  padEnd(value: string, long: number) {
     return value.padEnd(long, '0')
   }
 
   /**
    *
-   * @param value : Valor numérico. Example 102
-   * @param long : Longitud que debe tener value. Example 5
-   * @returns : Valor numérico de la longitud recibida. Los espacios son rellenados con cero, al inicio de value.
-   *            Example 00102
+   * @param value string - Valor numérico. Example 102
+   * @param long number - Longitud que debe tener value. Example 5
+   * @returns string - Valor numérico de la longitud recibida. Los espacios son rellenados con cero, al inicio de value.
+   *                   Example 00102
    */
 
-  padStart(value, long) {
+  padStart(value: string, long: number) {
     return value.padStart(long, '0')
   }
 
   /**
    *
-   * @param number
-   * @param long : Longitud que debe tener el número
-   * @returns : Número formateado con ceros al inicio para cumplir con la longitud recibida.
+   * @param number string
+   * @param long number - Longitud que debe tener el número
+   * @returns string - Número formateado con ceros al inicio para cumplir con la longitud recibida.
    */
 
-  fillWithCeros(number, long) {
+  fillWithCeros(number: string, long: number) {
     if (number) return this.padStart(number, long)
 
     return number
@@ -145,7 +145,7 @@ export class GlobalService {
     return parseFloat(x)
   }
 
-  formatWithDecimal(number, long) {
+  formatWithDecimal(number, long: number) {
     const aux = number.split('.')[1]
 
     if (aux) return this.padEnd(aux, long)
@@ -161,7 +161,7 @@ export class GlobalService {
    * @returns : Número formateado, con parte entera sin ceros. Example: 25.000
    */
 
-  formatNumber(number, long1, long2) {
+  formatNumber(number: number, long1, long2: number) {
     let entero = Math.trunc(number).toString()
 
     if (parseInt(entero) > 0) {
@@ -191,11 +191,11 @@ export class GlobalService {
 
   /**
    *
-   * @param results : Registros devueltos por el servicio de combo
-   * @returns : Array con nuevos atributos value/label
+   * @param results - Registros devueltos por el servicio de combo
+   * @returns Array con nuevos atributos value/label
    */
 
-  mapDropdown(results) {
+  mapDropdown(results: any[]) {
     const aux = results['tabla'].filter((x) => x.DD_COLUM_COMBO != '')
 
     return aux.map((p) => {
