@@ -169,7 +169,7 @@ https://stackblitz.com/edit/angular-dynamic-tabs?file=app%2Fapp.component.ts
 # Operaciones
 
     Antes todas las operaciones tenían su archivo de routing, donde se definia la navegación para esa operación
-    - Las operaciones y los módulos para no tendrán archivo de routing
+    - Las operaciones y los módulos ahora no tendrán archivo de routing
 
     + Para que la operación pueda ser abierta en los tabs dinámicos:
 
