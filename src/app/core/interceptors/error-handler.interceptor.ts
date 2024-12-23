@@ -18,6 +18,9 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
           ? error.error.error
           : error.error
 
+      if(error.error?.message === 'Expired token')
+        responseError =   error.error
+
       if (error.status === 0)
         responseError = {
           message: 'No se ha podido establecer conexión con el servidor.',
