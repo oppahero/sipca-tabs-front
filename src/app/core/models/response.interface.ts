@@ -13,14 +13,8 @@ export interface LoginResponse {
   token: string
 }
 
-// export interface LoginResponse {
-//   success?: boolean
-//   data: LoginData
-// }
-
 export interface MDWResponse {
   parametro: any
-  tabla?: any[]
   tabla1?: any[]
   tabla2?: any[]
   tabla3?: any[]
