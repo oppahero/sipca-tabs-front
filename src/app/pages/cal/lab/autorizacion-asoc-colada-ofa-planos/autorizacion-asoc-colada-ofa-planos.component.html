@@ -85,7 +85,7 @@
 >
   <ng-template pTemplate="caption">
     <div class="p-d-flex p-ai-center p-jc-between">
-      <h6 class="p-m-0">
+      <h6 class="m-0">
         <strong>{{ title }}</strong>
       </h6>
     </div>
@@ -97,7 +97,6 @@
       <th class="text-center" rowspan="2">Química Adic.</th>
     </tr>
   </ng-template>
-
   <ng-template pTemplate="body" let-rowData>
     <tr [pSelectableRow]="rowData">
       <td class="text-center">
@@ -114,15 +113,11 @@
           tooltipPosition="top"
           label="..."
           style="width: 10%"
-          (click)="
-            displayChangeDetOFA(true);
-            PosicionFila(rowData.CC_NEF_OFA, rowData.C_LOTE)
-          "
+          (click)="displayChangeDetOFA(true)"
         ></button>
       </td>
     </tr>
   </ng-template>
-
   <ng-template pTemplate="emptymessage">
     <tr>
       <td colspan="32" style="text-align: left">
@@ -134,16 +129,10 @@
 
 <p-toolbar styleClass="p-mb-12 ">
   <div style="text-align: right; width: 100%">
-    <p-button
-      class="mr-2"
-      label="Alta "
-      (click)="alta()"
-      [disabled]="addFlag()"
-    ></p-button>
+    <p-button class="mr-2" label="Alta " [disabled]="addFlag()"></p-button>
     <p-button
       class="mr-2"
       label="Modificar "
-      (click)="modificar()"
       [disabled]="updateFlag()"
     ></p-button>
     <p-button
@@ -160,22 +149,4 @@
   [W_IDEN]="results.parametro.PAR_IDEN"
   [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
   [W_MENSA]="results.parametro.W_MENSA"
-></app-transaction-info>
-
-<!-- <app-coladas-xedo-planos
-  (displayEvent)="displayChangeCxE($event)"
-  (selectEvent)="selectedHelpCxE($event)"
-  [displayHelp]="displayHelpColadasxEdo"
-  [acceptFlag]="true"
-></app-coladas-xedo-planos>
-
-<app-detalle-colada-OFA-planos
-  (displayEvent)="displayChangeDetOFA($event)"
-  (selectEvent)="selectedHelpDetOFA($event)"
-  [displayHelp]="displayHelpDetOFA"
-  [acceptFlag]="false"
-  [C_COLADA]="results.parametro.C_COLADA"
-  [CC_NEF_OFA]="ofa"
-  [C_LOTE]="lote"
->
-</app-detalle-colada-OFA-planos> -->
+/>

@@ -8,7 +8,6 @@ const SECRET_KEY = 'Ber1g0'
   providedIn: 'root'
 })
 export class StorageService {
-  // sessionStorage
 
   public secureStorage = new SecureStorage(localStorage, {
     hash: function hash(key) {

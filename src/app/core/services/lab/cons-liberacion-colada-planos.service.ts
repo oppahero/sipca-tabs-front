@@ -14,7 +14,7 @@ export class ConsLiberacionColadaPlanosService {
     this._url = environment.apiUrl + 'lab/cons-liberacion-coladas-planos'
   }
 
-  getAll(data: MDWResponse): Observable<MDWResponse> {
+  get(data: MDWResponse): Observable<MDWResponse> {
     return this._http.post<MDWResponse>(this._url, data)
   }
 

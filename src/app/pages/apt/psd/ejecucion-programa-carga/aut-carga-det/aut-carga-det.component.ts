@@ -1,27 +1,53 @@
-import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component'
-import { Component, Input, OnInit } from '@angular/core'
-import { AutCargaLargosDetService } from '@core/services/apt'
-import { AuthService, GlobalService } from '@core/services'
-import { Column, MDWResponse, User } from '@core/models'
+import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { AutCargaLargosDetService } from '@core/services/apt';
+import { AuthService, GlobalService } from '@core/services';
+import { Column, MDWResponse, User } from '@core/models';
+
+const mockData = [
+  {
+    CC_ORDEN_ENTREGA_MDW: 'ORD-1001',
+    CC_POS_ODESP_MDW: '01',
+    CC_PEDIDO_MDW: 'PED-5001',
+    CC_POS_PEDIDO_MDW: 'A1',
+    UNIA_DESP: 'GUIA-001',
+    FF_CARGA: '2025-10-27',
+    HH_CARGA_PROG: '08:00',
+    HH_FINAL_PROG: '10:30',
+    DD_PRODUCTO: 'Acero Laminado',
+    QQ_TIPO_ACERO: 'AL',
+    DD_NOR: 'ASTM A36',
+    QQ_SUBNOR: 'A36-1',
+    QQ_GRADO_ACERO: 'Grado B',
+    CC_DESIGN_NOR: 'A36-B',
+    QQ_DIAMETRO: 12,
+    QQ_ANCHO: 100,
+    QQ_ESPESOR: 5,
+    QQ_LONGITUD: 6000,
+    QQ_DIAM_PLG: 0.47,
+    QQ_CARGA: 1500
+  },
+]
+
 
 @Component({
   selector: 'app-aut-carga-det',
   templateUrl: './aut-carga-det.component.html',
 })
 export class AutCargaDetComponent implements OnInit {
-  user: User
-  title: string
+  user: User;
+  title: string;
   cols: Column[]
-  rows: any[]
-  results: MDWResponse = { parametro: {}, tabla: [] }
-  loading = false
+  rows: any[] = mockData;
+  results: MDWResponse = { parametro: {}, tabla1: [] };
+  loading: boolean;
 
-  @Input() hash: number
+  @Input() hash: number;
 
   @Input() set data(value: any) {
-    if (value) this.results.parametro.N_SECUEN_PROG = value
+    if (value) this.results.parametro.N_SECUEN_PROG = value;
 
-    this.consult()
+    this.consult();
   }
 
   constructor(
@@ -30,11 +56,13 @@ export class AutCargaDetComponent implements OnInit {
     private _dynamicTabs: DynamicTabsComponent,
     private _autCargaDetService: AutCargaLargosDetService
   ) {
-    this.title = 'Autorización Carga - Detalle'
+    this.user = this._authService.getUser();
+
+    this.title = 'Autorización Carga - Detalle';
   }
 
   ngOnInit(): void {
-    this.setCols()
+    this.setCols();
   }
 
   setCols() {
@@ -59,50 +87,48 @@ export class AutCargaDetComponent implements OnInit {
       { field: 'QQ_LONG', header: 'Longitud' },
       { field: 'QQ_DIAM_PLG', header: 'Diámetro (plg)' },
       { field: 'QQ_CARGA', header: 'Peso Progdo. (kg)' },
-    ]
+    ];
   }
 
-  filter(results): object[] {
-    return results['tabla'].filter((x) => x.CC_ORDEN_ENTREGA_MDW != '')
+  filter(res): object[] {
+    return res.tabla1.filter((x) => x.CC_ORDEN_ENTREGA_MDW !== '');
   }
 
-  success(response: MDWResponse) {
-    this.rows = this.filter(response)
-    this.results.parametro = response['parametro']
-  }
-
-  catchError(err) {
-    console.log(err)
+  success(res: MDWResponse) {
+    this.rows = this.filter(res);
+    this.results.parametro = res.parametro;
   }
 
   get() {
-    this.loading = true
+    this.loading = true;
 
-    this._autCargaDetService.get(this.results).subscribe({
-      next: (res) => this.success(res),
-      error: (err) => this.catchError(err),
-      complete: () => (this.loading = false),
-    })
+    this._autCargaDetService
+      .get(this.results)
+      .subscribe({
+        next: (res) => this.success(res),
+        error: (err) => console.log(err),
+      })
+      .add(() => {
+        this.loading = false;
+      });
   }
 
   consult() {
-    const { N_SECUEN_PROG } = this.results.parametro
-
-    this.user = this._authService.getUser()
+    const { N_SECUEN_PROG } = this.results.parametro;
 
     this.results.parametro = {
       PAR_IDEN: this.user?.username || '',
       N_SECUEN_PROG_MDW: this._util.validate(N_SECUEN_PROG),
-    }
+    };
 
-    this.get()
+    this.get();
   }
 
   nextPageFlag(): boolean {
-    return this.results.parametro.W_C_MENSA !== '010'
+    return this.results.parametro.W_C_MENSA !== '010';
   }
 
   back() {
-    this._dynamicTabs.back(this.hash)
+    this._dynamicTabs.back(this.hash);
   }
 }

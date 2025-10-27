@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { tap } from 'rxjs/operators'
-import { Observable } from 'rxjs'
-import { GlobalService } from '../global.service'
 import { environment } from 'src/environments/environment'
+import { GlobalService } from '../global.service'
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 import { MDWResponse } from '@core/models'
+import { Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -17,19 +16,7 @@ export class AutCargaLargosService {
   }
 
   get(data: MDWResponse): Observable<MDWResponse> {
-    return this._http.post<MDWResponse>(this._url, data).pipe(
-      tap((result) => {
-        this.formatCols(result.tabla)
-      })
-    )
-  }
-
-  formatCols(aux) {
-    return aux.map((p) => {
-      if (p.QQ_CARGA_PROG) p['QQ_CARGA_PROG'] = parseInt(p.QQ_CARGA_PROG)
-      if (p.QQ_CARGA_DESP) p['QQ_CARGA_DESP'] = parseInt(p.QQ_CARGA_DESP)
-      return p
-    })
+    return this._http.post<MDWResponse>(this._url, data)
   }
 
 }

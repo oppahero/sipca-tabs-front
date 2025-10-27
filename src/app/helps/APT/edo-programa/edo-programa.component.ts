@@ -18,7 +18,7 @@ export class EdoProgramaComponent implements OnInit {
   cols!: Column[]
   rows!: any[]
   loading!: boolean
-  results: MDWResponse = { parametro: {}, tabla: [] }
+  results: MDWResponse = { parametro: {}, tabla1: [] }
   selected!: any
 
   constructor(
@@ -38,7 +38,7 @@ export class EdoProgramaComponent implements OnInit {
   }
 
   filter(response: any): object[] {
-    return response['tabla'].filter((x) => x.NN_EDO_PROG != '')
+    return response['tabla1'].filter((x) => x.NN_EDO_PROG != '')
   }
 
   getAll() {

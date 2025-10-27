@@ -1,15 +1,40 @@
-import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component'
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { ConfirmDialogComponent } from '@shared/components'
-import { AuthService, GlobalService } from '@core/services'
-import { ActivatedRoute, Router } from '@angular/router'
-import { Column, MDWResponse, User } from '@core/models'
-import { DatePipe } from '@angular/common'
+import { DynamicTabsComponent } from 'src/app/layout/components/dynamicTabs/dynamicTabs.component';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ConfirmDialogComponent } from '@shared/components';
+import { AuthService, GlobalService } from '@core/services';
+import { Column, MDWResponse, User } from '@core/models';
+import { DatePipe } from '@angular/common';
 import {
   AutCargaLargosService,
   AutCargaLargosCanService,
   AutCargaLargosConfirService,
-} from '@core/services/apt'
+} from '@core/services/apt';
+
+
+const mockData = [
+  {
+    NN_SECUEN_VIAJE: 1001,
+    NN_SECUEN_PROG: 2001,
+    CC_ORDEN_DESP: 'ORD-001',
+    CC_POS_ODESP: 'POS-01',
+    DD_CLI_DESTINO: 'Cliente A',
+    CC_COND_ENTREG: 'Condición A',
+    DD_PUERTO: 'Puerto A',
+    DD_PRODUCTO: 'Producto A',
+    QQ_CARGA_PROG: 1500,
+    QQ_CARGA_DESP: 1450,
+    FF_CARGA: '2025-10-27',
+    HH_CARGA: '08:30',
+    CC_PROG_DESP: 'PRG-001',
+    DD_EDO_PROG: 'Autorizado',
+    DD_TIPO_VIAJE: 'Exportación',
+    DD_CIA_TRANSPORTE: 'Transporte A',
+    DD_NOMBRE_COND: 'Juan Pérez',
+    CC_TRSP_MOVIL: 'ABC-123',
+    CC_TRSP_CARGA: 'XYZ-789',
+    MM_IND_ELAB: 'Planta A'
+  },
+]
 
 @Component({
   selector: 'app-aut-carga',
@@ -17,47 +42,43 @@ import {
   providers: [DatePipe],
 })
 export class AutCargaComponent implements OnInit {
-  user: User
-  title: string
-  cols: Column[]
-  rows: any[]
-  selected: any
-  results: MDWResponse = { parametro: {}, tabla: [] }
-  date: Date
+  user: User;
+  title: string;
+  cols: Column[];
+  rows: any[] = mockData;  //Para demo
+  selected: any;
+  results: MDWResponse = { parametro: {}, tabla1: [] };
+  date: Date;
 
-  loading = false
-  displayHelp = false
+  loading = false;
+  displayHelp = false;
 
-  @ViewChild(ConfirmDialogComponent) confirm: ConfirmDialogComponent
+  @ViewChild(ConfirmDialogComponent) confirm: ConfirmDialogComponent;
 
-  @Input() hash: number
+  @Input() hash: number;
 
   @Input() set data(value: any) {
     if (value) {
-      const { params, date } = value
-      this.results.parametro = params
-      this.date = date
+      const { params, date } = value;
+      this.results.parametro = params;
+      this.date = date;
     }
   }
 
   constructor(
-    private _router: Router,
     private _datePipe: DatePipe,
     private _util: GlobalService,
     private _authService: AuthService,
-    private _activatedRoute: ActivatedRoute,
+    private _dynamicTabs: DynamicTabsComponent,
     private _autCargaService: AutCargaLargosService,
-    private _autCargaCanService: AutCargaLargosCanService,
-    private _autCargaConfirService: AutCargaLargosConfirService,
-    private _dynamicTabs: DynamicTabsComponent
   ) {
-    this.title = 'Ejecución de Programa de Carga - Autorización Carga'
+    this.user = this._authService.getUser();
+    this.title = 'Ejecución de Programa de Carga - Autorización Carga';
   }
 
   ngOnInit() {
-    this.user = this._authService.getUser()
-    this.setCols()
-    this.consult()
+    this.setCols();
+    this.consult();
   }
 
   setCols() {
@@ -82,40 +103,34 @@ export class AutCargaComponent implements OnInit {
       { field: 'CC_TRSP_MOVIL', header: 'Placa Móvil' },
       { field: 'CC_TRSP_CARGA', header: 'Placa Carga' },
       { field: 'MM_IND_ELAB', header: 'Origen' },
-    ]
+    ];
   }
 
-  filter(results: MDWResponse): object[] {
-    return results['tabla'].filter((x) => x.NN_SECUEN_VIAJE != '')
+  filter(res: MDWResponse): object[] {
+    return res.tabla1.filter((x) => x.NN_SECUEN_VIAJE !== '');
   }
 
-  success(response: MDWResponse) {
-    this.rows = this.filter(response)
-    this.results.parametro = response.parametro
-
-    if (this.rows.length) this.selected = this.rows[0]
-  }
-
-  catchError(err) {
-    console.log(err)
+  success(res: MDWResponse) {
+    this.rows = this.filter(res);
+    this.results.parametro = res.parametro;
   }
 
   get() {
-    this.loading = true
+    this.loading = true;
 
-    this._autCargaService.get(this.results).subscribe({
-      next: (res) => this.success(res),
-      error: (err) => this.catchError(err),
-      complete: () => {
-        this.loading = false
-      },
-    })
+    this._autCargaService
+      .get(this.results)
+      .subscribe({
+        next: (res) => this.success(res),
+        error: (err) => console.log(err),
+      })
+      .add(() => (this.loading = false));
   }
 
   consult() {
-    this.selected = null
-    const aux = { ...this.results.parametro }
-    const date = this._datePipe.transform(this.date, 'yyyyMMdd')
+    this.selected = null;
+    const aux = { ...this.results.parametro };
+    const date = this._datePipe.transform(this.date, 'yyyyMMdd');
 
     this.results.parametro = {
       PAR_IDEN: this.user?.username,
@@ -124,151 +139,33 @@ export class AutCargaComponent implements OnInit {
       F_CARGA: this._util.validate(date),
       N_SECUEN_PROG_MDW: this._util.validate(aux.N_SECUEN_PROG_MDW),
       C_EDO_PROG_MDW: this._util.validate(aux.C_EDO_PROG_MDW),
-      PAG: '',
-      ACCION: '',
-      W_ISN: '',
-      W_INI_CONSU1: '',
-      W_INI_CONSU2: '',
-      W_INI_CONSU3: '',
-      W_PRIM_LIN_SEC: '',
-      W_PRIM_LIN_EDO: '',
-      W_PRIM_LIN_FEC: '',
-      W_PIRM_LIN_C_PROG: '',
-      W_INI_CONSU_C_PROG: '',
-      N_SECUEN_VIAJE: '',
-    }
+    };
 
-    this.get()
-  }
-
-  refreshConsult(results: MDWResponse) {
-    if (
-      results.parametro.W_TIPO_MENSA === '' ||
-      results.parametro.W_TIPO_MENSA === 'IN'
-    )
-      this.consult()
-  }
-
-  successCs(results: MDWResponse) {
-    this.refreshConsult(results)
-  }
-
-  paramsCs(action: string, wValida: string, nnSecuen) {
-    return {
-      parametro: {
-        ACCION: action,
-        W_VALIDA: wValida,
-        NN_SECUEN_PROG: nnSecuen,
-        PAR_IDEN: this.user.username,
-      },
-    }
-  }
-
-  cancel() {
-    const params = this.paramsCs('X', 'X', this.selected.NN_SECUEN_PROG)
-    this.loading = true
-
-    this._autCargaCanService.cancel(params).subscribe({
-      next: (results) => this.successCs(results),
-      error: (err) => this.catchError(err),
-      complete: () => (this.loading = false),
-    })
-  }
-
-  confirmation() {
-    const params = this.paramsCs('P', 'X', this.selected.NN_SECUEN_PROG)
-    this.loading = true
-
-    this._autCargaConfirService.confirm(params).subscribe({
-      next: (results) => this.successCs(results),
-      error: (err) => this.catchError(err),
-      complete: () => (this.loading = false),
-    })
-  }
-
-  nextPage() {
-    this.results.parametro.ACCION = 'S'
-    this.get()
+    this.get();
   }
 
   nextPageFlag(): boolean {
-    return !(this.results.parametro.W_C_MENSA === '010')
+    return !(this.results.parametro.W_C_MENSA === '010');
   }
 
-  // devFrente - confirmación
-  devFrenteFlag(): boolean {
-    return !(
-      this.results.parametro.C_EDO_PROG_MDW === '03' &&
-      this.selected &&
-      this.selected.CC_EDO_PROG === '03'
-    )
-  }
-
-  // reordenar - cancelar
-  rearrangeFLag(): boolean {
-    return !(
-      this.results.parametro.C_EDO_PROG_MDW === '09' &&
-      this.selected &&
-      this.selected.CC_EDO_PROG === '09'
-    )
-  }
-
-  reprintFlag(): boolean {
-    return !(
-      this.results.parametro.C_EDO_PROG_MDW !== '09' &&
-      this.selected &&
-      this.selected.CC_EDO_PROG !== '09'
-    )
-  }
-
+  // *EJEMPLO DE NAVEGACIÓN EN LA MISMA OPERACION
   detail() {
+    // Ejemplo de como guardar datos en el componente activo
     this._dynamicTabs.setDataOnComponentActive(this.hash, {
       params: this.results.parametro,
       date: this.date,
-    })
+    });
 
+    // Ejemplo de como navegar a otro componente dentro del tab actual
     this._dynamicTabs.navigateTo(
       this.hash,
       'AutCargaDetComponent',
       this.selected.NN_SECUEN_PROG
-    )
-  }
-
-  devFrent() {
-    this.navigate('devFrente', this.selected.NN_SECUEN_PROG)
-  }
-
-  tracking() {
-    this.navigate('seguimiento', this.selected.NN_SECUEN_PROG)
-  }
-
-  rearrange() {
-    this.navigate('reordenar', this.results.parametro.C_EDO_PROG_MDW)
-  }
-
-  reprint() {
-    this.navigate('reimp', this.selected.NN_SECUEN_PROG)
-  }
-
-  register() {
-    this._router.navigate(['alta'], { relativeTo: this._activatedRoute })
-  }
-
-  externalCenterOffice() {
-    this._router.navigate(['despachoCExt'], {
-      relativeTo: this._activatedRoute,
-    })
-  }
-
-  navigate(route: string, value: any) {
-    // this.saveParams()
-    this._router.navigate([route, value], {
-      relativeTo: this._activatedRoute,
-    })
+    );
   }
 
   displayChange(value: boolean) {
-    this.displayHelp = value
+    this.displayHelp = value;
   }
 
   selectedHelp(value: any) {
@@ -276,32 +173,10 @@ export class AutCargaComponent implements OnInit {
       ...this.results.parametro,
       C_EDO_PROG_MDW: this._util.fillWithCeros(value.NN_EDO_PROG, 2),
       D_EDO_PROG: value.DD_EDO_PROG,
-    }
+    };
   }
 
   selectedRow(value: any) {
-    this.selected = value
-  }
-
-  confirmDialog() {
-    this.confirm.show('¿Está seguro que desea confirmar la carga?', 'confirm')
-  }
-
-  cancelDialog() {
-    this.confirm.show(
-      '¿Está seguro que desea cancelar la Autorización?',
-      'cancel'
-    )
-  }
-
-  confirmDialogAccept(key: string) {
-    switch (key) {
-    case 'confirm':
-      this.confirmation()
-      break
-    default:
-      this.cancel()
-      break
-    }
+    this.selected = value;
   }
 }

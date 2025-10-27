@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { FullScreenService } from '../fullScreen.service'
 import { AuthService, LdapService } from '@core/services'
 import { ToastComponent } from '@shared/components'
 import { LoginResponse } from '@core/models'
 import { Router } from '@angular/router'
-import { FullScreenService } from '../fullScreen.service'
 
 @Component({
   selector: 'app-login',
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   isSubmitted = false
   loginForm!: FormGroup
   dataResponse: LoginResponse
+
 
   @ViewChild(ToastComponent) toast: ToastComponent
 

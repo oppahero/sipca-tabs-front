@@ -50,8 +50,6 @@
             inputId="icon"
             dateFormat="dd/mm/yy"
             [baseZIndex]="10000"
-            [yearNavigator]="true"
-            [monthNavigator]="true"
             yearRange="2000:2050"
             [iconDisplay]="'input'"
             [showOnFocus]="false"
@@ -85,25 +83,18 @@
             />
             <p-button
               pRipple
-              styleClass="{width: auto}"
+              class="w-auto"
               pTooltip="Mostrar ayuda"
               tooltipPosition="top"
               label="..."
               (click)="displayChange(true)"
-            ></p-button>
+            />
           </p-inputGroup>
         </div>
         <div class="field field--operation flex-align-end">
-          <!-- <button
-            style="width: auto"
-            pButton
-            pRipple
-            label="Consultar"
-            (click)="consult()" 
-          ></button> -->
           <p-button
             pRipple
-            styleClass="{width: auto}"
+            class="w-auto"
             label="Consultar"
             (click)="consult()"
           />
@@ -124,60 +115,26 @@
   [paginator]="false"
   (selectedEvent)="selectedRow($event)"
 >
-  <p-button class="mr-2" label="Detalle" (click)="detail()"></p-button>
   <p-button
-    [disabled]="nextPageFlag()"
-    (click)="nextPage()"
-    label="Siguiente"
-  ></p-button>
+    class="mr-2"
+    label="Detalle"
+    (click)="detail()"
+    [disabled]="!selected"
+  />
+  <p-button [disabled]="nextPageFlag()" label="Siguiente" />
 </app-basic-table>
 
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <p-button
-      class="mr-2"
-      label="Reordenar"
-      [disabled]="rearrangeFLag()"
-      (click)="rearrange()"
-    ></p-button>
-    <p-button
-      class="mr-2"
-      label="Dev. Frente"
-      [disabled]="devFrenteFlag()"
-      (click)="devFrent()"
-    ></p-button>
-    <p-button
-      class="mr-2"
-      label="Confirmación"
-      (click)="confirmDialog()"
-      [disabled]="devFrenteFlag()"
-    ></p-button>
-    <p-button
-      class="mr-2"
-      label="Cancelar"
-      (click)="cancelDialog()"
-      [disabled]="rearrangeFLag()"
-    ></p-button>
-    <!-- <button pButton type="button" label="Alta" (click)="register()"></button> -->
+    <p-button class="mr-2" label="Reordenar" [disabled]="true" />
+    <p-button class="mr-2" label="Dev. Frente" [disabled]="true" />
+    <p-button class="mr-2" label="Confirmación" [disabled]="true" />
+    <p-button class="mr-2" label="Cancelar" [disabled]="true" />
   </div>
   <div class="p-toolbar-group-end">
-    <p-button
-      class="mr-2"
-      label="Desp Cent Ext"
-      (click)="externalCenterOffice()"
-    ></p-button>
-    <p-button
-      class="mr-2"
-      label="ReImp. Autoriz."
-      (click)="reprint()"
-      [disabled]="reprintFlag()"
-    ></p-button>
-    <p-button
-      class="mr-2"
-      label="Seguimiento"
-      (click)="tracking()"
-      [disabled]="!selected"
-    ></p-button>
+    <p-button class="mr-2" label="Desp Cent Ext" [disabled]="true" />
+    <p-button class="mr-2" label="ReImp. Autoriz." [disabled]="true" />
+    <p-button class="mr-2" label="Seguimiento" [disabled]="true" />
   </div>
 </p-toolbar>
 
@@ -187,13 +144,12 @@
   [W_IDEN]="results.parametro.PAR_IDEN"
   [W_TIPO_MENSA]="results.parametro.W_TIPO_MENSA"
   [W_MENSA]="results.parametro.W_MENSA"
-></app-transaction-info>
+/>
 
 <app-edo-programa
   (displayEvent)="displayChange($event)"
   (selectEvent)="selectedHelp($event)"
   [displayHelp]="displayHelp"
-></app-edo-programa>
+/>
 
-<app-confirm-dialog (acceptEvent)="confirmDialogAccept($event)">
-</app-confirm-dialog>
+<app-confirm-dialog />

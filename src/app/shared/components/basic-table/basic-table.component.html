@@ -14,13 +14,13 @@
   [rows]="num"
   #dt
   [(first)]="first"
-  [scrollable]="scrollable" 
-  [scrollHeight]="scrollHeight" 
+  [scrollable]="scrollable"
+  [scrollHeight]="scrollHeight"
 >
   <ng-template pTemplate="caption" *ngIf="title || excel || filters">
     <div class="p-d-flex p-ai-center p-jc-between">
       <div>
-        <h6 class="p-m-0" *ngIf="title">
+        <h6 class="m-0" *ngIf="title">
           <strong>{{ title }}</strong>
         </h6>
       </div>
@@ -100,7 +100,14 @@
       <!-- w-10rem -->
       <div class="flex align-items-center h-2rem m-2">
         <label [hidden]="!pag" htmlFor="PAG" class="mr-2">Página:</label>
-        <input [hidden]="!pag" id="PAG" readonly [(ngModel)]="pag" style="width: 50px" pInputText />
+        <input
+          [hidden]="!pag"
+          id="PAG"
+          readonly
+          [(ngModel)]="pag"
+          style="width: 50px"
+          pInputText
+        />
       </div>
       <div class="flex align-items-center h-2rem m-2">
         <ng-content></ng-content>
