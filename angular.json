@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sipca-tabs-front-ng": {
+    "sipca-tabs-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sipca-tabs-front-ng",
+            "outputPath": "dist/sipca-tabs-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sipca-tabs-front-ng:build:production"
+              "buildTarget": "sipca-tabs-front:build:production"
             },
             "development": {
-              "buildTarget": "sipca-tabs-front-ng:build:development"
+              "buildTarget": "sipca-tabs-front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "sipca-tabs-front-ng:build"
+            "buildTarget": "sipca-tabs-front:build"
           }
         },
         "test": {
@@ -107,6 +107,9 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
