@@ -33,7 +33,7 @@ Users should be able to:
 
 The demo has no database connection. To bypass the login, use any username and password.
 
-- Live Site URL: [Demo](oppahero.github.io/sipca-tabs-front/)
+- Live Site URL: [Demo](https://oppahero.github.io/sipca-tabs-front/)
 
 ## My process
 
