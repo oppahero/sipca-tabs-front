@@ -13,6 +13,4 @@ export interface Tab {
   history?: BrowsingHistory[];
   componentMap?: { [key: string]: Type<any> };
   data?: any;
-
-  activeTab?: Type<any>;
 }

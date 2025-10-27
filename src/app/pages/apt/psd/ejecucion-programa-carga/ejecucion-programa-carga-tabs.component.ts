@@ -15,23 +15,12 @@ export class EjecucionProgramaCargaTabsComponent implements OnInit {
     this.items = [
       {
         label: 'Autorización Carga',
-        // command: () => {
-        //   this.selectComponent('AutCargaComponent')
-        // },
       },
       { label: 'Ord. Programadas' },
       { label: 'Frente de Despacho'},
     ]
 
     this.activeItem = this.items[0]
-
-    // this.component = this.componentMap['AutCargaComponent']
   }
 
-  // selectComponent(type: string) {
-  //   const components = this.componentMap[type]
-  //   if (components !== this.component) {
-  //     this.component = components
-  //   }
-  // }
 }

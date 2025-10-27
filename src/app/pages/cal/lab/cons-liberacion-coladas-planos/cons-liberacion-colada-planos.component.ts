@@ -55,6 +55,7 @@ export class ConsultaLiberacionColadaPlanosComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCols();
+    this.selected = this.rows[0];
   }
 
   setCols() {

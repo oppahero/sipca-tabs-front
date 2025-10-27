@@ -79,6 +79,7 @@ export class AutCargaComponent implements OnInit {
   ngOnInit() {
     this.setCols();
     this.consult();
+    this.selected = this.rows[0];
   }
 
   setCols() {
